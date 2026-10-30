@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tai-Ho Wang</title>
+<meta name="description" content="Tai-Ho Wang, Professor of Mathematics, Baruch College, The City University of New York. Research on automated market making in decentralized exchanges, market microstructure models, and optimal order execution.">
+<meta name="theme-color" content="#0e0b16">
+<meta property="og:title" content="Tai-Ho Wang">
+<meta property="og:description" content="Tai-Ho Wang, Professor of Mathematics, Baruch College, The City University of New York. Research on automated market making in decentralized exchanges, market microstructure models, and optimal order execution.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://taiho-wang.github.io/">
+<meta property="og:image" content="https://taiho-wang.github.io/images/portrait.jpg">
+<link rel="canonical" href="https://taiho-wang.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e0b16'/%3E%3Cpath d='M3 24 C9 24 11 9 16 9 S23 24 29 24' fill='none' stroke='%23fb8761' stroke-width='2.4'/%3E%3Cpath d='M3 19 C9 19 11 6 16 6 S23 19 29 19' fill='none' stroke='%23b5367a' stroke-width='1.6' opacity='.8'/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&family=STIX+Two+Text:wght@500&display=swap">
+<style>
+/* Layout: dark-first. A full-bleed ridgeline "liquidity surface" under an expanded-width name is the one
+   bold element; below, a single wide column: contact with portrait, a career timeline chart, and a
+   publication list with a per-year strip. Colors come from the magma colormap. */
+:root {
+  --bg: #0e0b16;        /* magma's dark end */
+  --bg-2: #181324;      /* raised */
+  --viz: #130f1d;       /* figure panel */
+  --viz-band: #2e2640;  /* bid-ask band */
+  --fg: #f3eff7;
+  --fg-2: #a69db6;
+  --line: #2a2437;
+  --accent: #fb8761;    /* magma orange: links */
+  --fac: #fb8761; --visit: #e0517a; --post: #a64bb5; --deg: #fce9b4;
+  --t-amm: #fec287; --t-exec: #fb8761; --t-vol: #e55064; --t-prob: #b5367a; --t-stats: #9a3fa0; --t-book: #6f6680;
+  --f: "Archivo", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-head: "STIX Two Text", "STIX Two", "Times New Roman", Georgia, serif;
+  --top: env(safe-area-inset-top, 0px);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f6f4f9; --bg-2: #ebe7f1; --viz: #efecf5; --viz-band: #dcd5e7; --fg: #1a1426; --fg-2: #5d5570; --line: #dad4e4; --accent: #b02a6b;
+    --fac: #d4572b; --visit: #b5306c; --post: #7a2a90; --deg: #a8740c;
+    --t-amm: #e0892f; --t-exec: #d4572b; --t-vol: #c23a52; --t-prob: #a02a6e; --t-stats: #6e2788; --t-book: #9a92a8;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f6f4f9; --bg-2: #ebe7f1; --viz: #efecf5; --viz-band: #dcd5e7; --fg: #1a1426; --fg-2: #5d5570; --line: #dad4e4; --accent: #b02a6b;
+  --fac: #d4572b; --visit: #b5306c; --post: #7a2a90; --deg: #a8740c;
+  --t-amm: #e0892f; --t-exec: #d4572b; --t-vol: #c23a52; --t-prob: #a02a6e; --t-stats: #6e2788; --t-book: #9a92a8;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--f); font-size: 1rem; line-height: 1.55; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: var(--top); z-index: 10; background: var(--bg); }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+.wrap {
+  max-width: 76rem; margin-inline: auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* top bar */
+.top { position: sticky; top: var(--top); z-index: 5; background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.top-in { display: flex; align-items: center; gap: 1.5rem; padding-block: 0.7rem; }
+.mark { font-family: var(--f-head); font-weight: 500; font-size: 1.3rem; line-height: 1; color: var(--fg); text-decoration: none; }
+.top nav { display: flex; gap: 1.4rem; margin-left: auto; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.top nav::-webkit-scrollbar { display: none; }
+.top nav a { color: var(--fg-2); text-decoration: none; font-size: 0.9375rem; white-space: nowrap; padding-block: 0.25rem; }
+.top nav a:hover { color: var(--fg); }
+.theme-toggle { flex: none; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%;
+  border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; }
+.theme-toggle:hover { background: var(--bg-2); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem);
+  align-items: stretch; padding-top: clamp(3rem, 7vw, 5.5rem); }
+.hero-text { container-type: inline-size; min-width: 0; }
+.hero h1 {
+  margin: 0; font-family: var(--f-head); font-weight: 500; line-height: 0.95; letter-spacing: -0.01em;
+  font-size: clamp(2rem, 6.5vw, 6.5rem); font-size: min(12.5cqi, 6.5rem); white-space: nowrap;
+}
+.role { margin-top: 1.5rem; font-size: clamp(1.0625rem, 2vw, 1.3rem); color: var(--fg); max-width: 44rem; }
+.nw { white-space: nowrap; }
+.lede { margin-top: 1.25rem; font-size: clamp(1rem, 1.6vw, 1.125rem); color: var(--fg-2); max-width: 44rem; }
+.topics { list-style: none; padding: 0; margin-bottom: 0; display: grid; gap: 0.3rem; }
+.hero .portrait { width: 13rem; max-width: 100%; margin-top: 2.25rem; }
+.hero-viz { margin: 0; min-width: 0; display: flex; flex-direction: column; }
+.viz-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; border-bottom: 1px solid var(--line); }
+.viz-tabs button { position: relative; font-family: var(--f-head); font-weight: 500; font-size: clamp(1.25rem, 2.2vw, 1.55rem); line-height: 1.15;
+  color: var(--fg-2); background: none; border: 0; padding: 0 0 0.55rem; cursor: pointer; }
+.viz-tabs button:hover { color: var(--fg); }
+.viz-tabs button[aria-selected="true"] { color: var(--fg); }
+.viz-tabs .prog { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--accent); }
+.viz-tabs button[aria-selected="true"] .prog { width: 100%; }
+.slides { display: grid; flex: 1 1 auto; min-height: 0; }
+.slide { grid-area: 1 / 1; display: flex; flex-direction: column; min-width: 0; transition: opacity 0.45s ease, visibility 0s linear 0s; }
+.slide.off { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.45s ease, visibility 0s linear 0.45s; }
+@media (prefers-reduced-motion: reduce) { .slide, .slide.off { transition: none; } }
+.viz-sub { margin-top: 0.7rem; font-size: 0.875rem; color: var(--fg-2); }
+.viz-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.7rem; margin-top: 0.9rem; }
+.vlabel { font-size: 0.8125rem; color: var(--fg-2); margin-left: 0.25rem; }
+.vbtn, .segctl { border: 1px solid var(--line); border-radius: 999px; }
+.vbtn { font: inherit; font-size: 0.8125rem; font-weight: 500; color: var(--fg); background: transparent; padding: 0.3rem 0.85rem; cursor: pointer; min-width: 4.6rem; }
+.vbtn:hover { background: var(--bg-2); }
+.vbtn[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.segctl { display: inline-flex; overflow: hidden; }
+.segctl button { font: inherit; font-size: 0.8125rem; font-weight: 500; color: var(--fg); background: transparent; border: 0; padding: 0.3rem 0.8rem; cursor: pointer; }
+.segctl button + button { border-left: 1px solid var(--line); }
+.segctl button:hover { background: var(--bg-2); }
+.segctl button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.viz-box { position: relative; flex: 1 1 auto; min-height: 14.5rem; margin-top: 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--viz); overflow: hidden; }
+#surface { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: pan-y; }
+.readout { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 0.9rem 0 0; }
+.readout div { border-top: 3px solid var(--fac); padding-top: 0.4rem; min-width: 0; }
+.readout div:nth-child(2) { border-color: var(--visit); }
+.readout div:nth-child(3) { border-color: var(--post); }
+.readout dt { font-size: 0.78rem; color: var(--fg-2); }
+.readout dd { margin: 0; font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.cap { margin-top: 0.75rem; font-size: 0.8125rem; color: var(--fg-2); }
+#iv-svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+#iv-svg .gl { stroke: var(--line); stroke-width: 1; }
+#iv-svg .tick { fill: var(--fg-2); font: 400 11px var(--f); font-variant-numeric: tabular-nums; }
+#iv-svg .iv-axis { stroke: var(--fg-2); stroke-width: 1; opacity: 0.8; }
+#iv-svg .iv-axl { fill: var(--fg-2); font: 400 11px var(--f); }
+#iv-svg .iv-ylab { fill: var(--fg); font: italic 500 13px var(--f); }
+#iv-svg .iv-band { fill: var(--viz-band); }
+#iv-svg .iv-split { stroke: var(--fg-2); stroke-width: 1; stroke-dasharray: 4 3; opacity: 0.7; }
+#iv-svg .iv-mkt { fill: none; stroke: var(--fg); stroke-width: 1.3; stroke-linejoin: round; }
+#iv-svg .iv-dots { fill: var(--fg); }
+#iv-svg .iv-l { fill: none; stroke-linejoin: miter; }
+#iv-svg .iv-l3 { stroke: var(--post); stroke-width: 2.4; }
+#iv-svg .iv-l12 { stroke: var(--visit); stroke-width: 2.1; }
+#iv-svg .iv-l48 { stroke: var(--fac); stroke-width: 1.7; }
+.iv-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; margin: 0.5rem 0 0; padding: 0; font-size: 0.78rem; color: var(--fg-2); }
+.iv-legend li { display: flex; align-items: center; gap: 0.4rem; }
+.lsw { display: inline-block; width: 1.1rem; height: 3px; }
+.lsw.lband { background: var(--viz-band); height: 0.7rem; } .lsw.lmkt { background: var(--fg); height: 2px; }
+.lsw.l3 { background: var(--post); } .lsw.l12 { background: var(--visit); } .lsw.l48 { background: var(--fac); }
+
+/* sections */
+.sec { padding-block: clamp(4rem, 8vw, 6.5rem) 0; scroll-margin-top: 3.5rem; }
+.sec h2 {
+  margin: 0 0 2rem; font-family: var(--f-head); font-weight: 500; letter-spacing: -0.01em; line-height: 1.05;
+  font-size: clamp(2.1rem, 5vw, 3.4rem); text-wrap: balance;
+}
+.sec h3 { margin: 0 0 0.85rem; font-size: 1.125rem; font-weight: 650; }
+
+/* contact */
+.portrait { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 640 / 877; border-radius: 12px; }
+.contact dl { margin: 0; display: grid; gap: 1.4rem; min-width: 0; }
+.contact dt { font-size: 0.8125rem; color: var(--fg-2); margin-bottom: 0.15rem; }
+.contact dd { margin: 0; overflow-wrap: anywhere; font-size: 1.0625rem; }
+.contact .big dd { font-size: clamp(1.25rem, 3vw, 1.75rem); font-weight: 600; }
+.contact .big dd a { text-decoration: none; }
+.contact .big dd a:hover { text-decoration: underline; }
+.copy { font: inherit; font-size: 0.8125rem; font-weight: 500; vertical-align: middle; margin-left: 0.6rem;
+  padding: 0.2rem 0.7rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--fg-2); cursor: pointer; }
+.copy:hover { background: var(--bg-2); color: var(--fg); }
+
+/* career timeline */
+.gantt { --label: 15rem; }
+.g-rows { position: relative; }
+.g-row { display: grid; grid-template-columns: var(--label) minmax(0, 1fr); align-items: center; border-bottom: 1px solid var(--line); }
+.g-label { font-size: 0.875rem; color: var(--fg-2); padding-right: 1rem; line-height: 1.25; }
+.g-track {
+  position: relative; height: 2.5rem;
+  background-image: repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px 13.5135%);
+}
+.g-bar { position: absolute; top: 0.7rem; height: 1.1rem; min-width: 5px; border-radius: 3px; overflow: hidden;
+  font-size: 0.72rem; font-weight: 600; line-height: 1.1rem; color: var(--bg); white-space: nowrap; }
+.g-bar + .g-bar { box-shadow: -2px 0 0 var(--bg); }
+.g-bar-l { padding-left: 0.45rem; }
+.k-fac { background: var(--fac); } .k-visit { background: var(--visit); } .k-post { background: var(--post); }
+.g-deg { position: absolute; top: 50%; width: 0; height: 0; }
+.g-deg::before { content: ""; position: absolute; left: -0.3rem; top: -0.3rem; width: 0.6rem; height: 0.6rem; background: var(--deg); transform: rotate(45deg); }
+.g-deg-l { position: absolute; left: 0.6rem; top: -0.5rem; font-size: 0.72rem; line-height: 1; color: var(--fg-2); white-space: nowrap; }
+.g-axis { border-bottom: 0; }
+.g-axis .g-track { height: 1.6rem; background: none; }
+.g-tick { position: absolute; top: 0.3rem; transform: translateX(-50%); font-size: 0.75rem; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.g-tick:first-child { transform: none; }
+.g-now { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--fg-2); }
+.legend { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin: 1rem 0 0; padding: 0; font-size: 0.8125rem; color: var(--fg-2); }
+.legend li { display: flex; align-items: center; gap: 0.45rem; }
+.sw { width: 0.9rem; height: 0.6rem; border-radius: 2px; display: inline-block; }
+.sw-deg { width: 0.55rem; height: 0.55rem; background: var(--deg); transform: rotate(45deg); border-radius: 0; }
+.lists { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 2.5rem; margin-top: 3rem; }
+.plist { list-style: none; margin: 0; padding: 0; }
+.plist li { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 1rem; padding-block: 0.55rem; border-top: 1px solid var(--line); font-size: 0.9375rem; }
+.plist .when { color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.plist b { font-weight: 600; }
+
+/* publications */
+.pubviz { margin-bottom: 1.75rem; }
+.py-bars { display: grid; grid-template-columns: repeat(var(--n, 27), minmax(0, 1fr)); gap: 3px; align-items: end; min-height: 4.6rem; border-bottom: 1px solid var(--line); }
+.py-col { display: flex; flex-direction: column-reverse; gap: 2px; }
+.seg { display: block; height: 0.95rem; border-radius: 2px; transition: opacity 0.2s; }
+.seg[data-topic="amm"], .t-amm { background: var(--t-amm); }
+.seg[data-topic="exec"], .t-exec { background: var(--t-exec); }
+.seg[data-topic="vol"], .t-vol { background: var(--t-vol); }
+.seg[data-topic="prob"], .t-prob { background: var(--t-prob); }
+.seg[data-topic="stats"], .t-stats { background: var(--t-stats); }
+.t-book { background: var(--t-book); }
+.pubviz[data-active="amm"] .seg:not([data-topic="amm"]),
+.pubviz[data-active="exec"] .seg:not([data-topic="exec"]),
+.pubviz[data-active="vol"] .seg:not([data-topic="vol"]),
+.pubviz[data-active="prob"] .seg:not([data-topic="prob"]),
+.pubviz[data-active="stats"] .seg:not([data-topic="stats"]) { opacity: 0.15; }
+.py-axis { display: grid; grid-template-columns: repeat(var(--n, 27), minmax(0, 1fr)); gap: 3px; margin-top: 0.4rem; font-size: 0.75rem; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.py-axis span { white-space: nowrap; }
+.filters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { display: inline-flex; align-items: center; gap: 0.45rem; font: inherit; font-size: 0.875rem; color: var(--fg); cursor: pointer;
+  background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 0.4rem 0.85rem; min-height: 2.25rem; }
+.chip:hover { background: var(--bg-2); }
+.chip .c { color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chip[aria-pressed="true"] .c { color: inherit; opacity: 0.65; }
+.status { margin-top: 1rem; font-size: 0.875rem; color: var(--fg-2); }
+.pubs { list-style: none; margin: 0.5rem 0 0; padding: 0; }
+.pubs > li { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr) auto; gap: 0 1rem; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+.p-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; display: inline-block; flex: none; }
+.pubs .p-dot { margin-top: 0.5rem; }
+.p-title { font-size: 1.0625rem; font-weight: 550; line-height: 1.35; color: var(--fg); text-decoration: none; text-wrap: pretty; }
+a.p-title:hover { color: var(--accent); }
+a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
+.p-meta { margin-top: 0.3rem; font-size: 0.9rem; color: var(--fg-2); }
+.p-year { font-variant-numeric: tabular-nums; color: var(--fg-2); font-size: 0.9rem; padding-top: 0.15rem; }
+.sec h3 + .pubs { margin-top: 0; }
+#pub-list + h3 { margin-top: 3rem; }
+
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; margin-top: clamp(4rem, 8vw, 6rem);
+  padding-block: 1.75rem 2.5rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--fg-2); }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero h1 { font-size: clamp(2rem, 10.5vw, 6.5rem); font-size: min(12.5cqi, 6.5rem); }
+  .viz-box { min-height: 0; height: clamp(16rem, 72vw, 26rem); flex: none; }
+  .lists { grid-template-columns: minmax(0, 1fr); }
+  .gantt { --label: 10rem; }
+  .g-deg-l { display: none; }
+}
+@media (max-width: 640px) {
+  .hero .portrait { width: min(11rem, 50%); margin-top: 1.75rem; }
+  .gantt { --label: 0rem; }
+  .g-row { grid-template-columns: minmax(0, 1fr); padding-top: 0.5rem; }
+  .g-label { font-size: 0.8125rem; }
+  .g-track { height: 1.9rem; }
+  .g-bar { top: 0.45rem; }
+  .g-bar-l, .g-deg-l { display: none; }
+  .g-axis .g-label { display: none; }
+  .g-tick:nth-child(even) { display: none; }
+  .g-now { display: none; }
+  .plist li { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+  .pubs > li { grid-template-columns: 1rem minmax(0, 1fr); }
+  .p-year { grid-column: 2; padding-top: 0.25rem; }
+  .mark { display: none; }
+  .top nav { gap: 0.9rem; margin-left: 0; }
+  .top nav a { font-size: 0.8125rem; }
+  .theme-toggle { margin-left: auto; }
+  .top-in { gap: 0.9rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in wrap">
+    <a class="mark" href="#top" aria-label="Tai-Ho Wang, back to top">TW</a>
+    <nav aria-label="Sections">
+      <a href="#contact">Contact</a>
+      <a href="#experience">Academic experiences</a>
+      <a href="#publications">Publications</a>
+    </nav>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light theme">
+      <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.75a7.25 7.25 0 0 1 0 14.5z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap" aria-labelledby="name">
+    <div class="hero-text">
+      <h1 id="name">Tai-Ho Wang</h1>
+      <p class="role">Professor of Mathematics<br>Baruch College, <span class="nw">The City University of New York</span></p>
+      <ul class="lede topics" aria-label="Research interests">
+        <li>Automated Market Making in Decentralized Exchanges</li>
+        <li>Market Microstructure Models</li>
+        <li>Optimal Order Execution</li>
+      </ul>
+      <img class="portrait" src="images/portrait.jpg" width="640" height="877" decoding="async" alt="Photo of Tai-Ho Wang">
+    </div>
+    <figure class="hero-viz" id="viz">
+      <div class="viz-tabs" role="tablist" aria-label="Figures">
+        <button type="button" role="tab" id="tab-surf" aria-selected="true" aria-controls="slide-surf">Liquidity surface<span class="prog"></span></button>
+        <button type="button" role="tab" id="tab-iv" aria-selected="false" aria-controls="slide-iv" tabindex="-1">Implied volatility<span class="prog"></span></button>
+      </div>
+      <div class="slides">
+        <div class="slide" id="slide-surf" role="tabpanel" aria-labelledby="tab-surf">
+          <p class="viz-sub" id="surf-sub">SPIDE fitted to WETH–USDC 5 bps on Ethereum (Dense-3 with penalty, Full block). One ridge every 8 hours.</p>
+          <div class="viz-controls">
+            <button type="button" class="vbtn" id="surf-play" aria-pressed="false">Pause</button>
+            <span class="vlabel" id="spool-label">Pool</span>
+            <div class="segctl" role="group" aria-labelledby="spool-label">
+              <button type="button" data-spool="ARB5" aria-pressed="false">ARB5</button><button type="button" data-spool="ETH5" aria-pressed="true">ETH5</button><button type="button" data-spool="ETH30" aria-pressed="false">ETH30</button>
+            </div>
+          </div>
+          <div class="viz-box"><canvas id="surface" role="img" aria-label="Animated liquidity surface simulated from the SPIDE model: spot-centered liquidity profiles across tick rank, one ridge every 8 hours, newest in front."></canvas></div>
+          <dl class="readout" aria-live="off">
+            <div><dt>Level (mode 0)</dt><dd id="s-lev">+0.00</dd></div>
+            <div><dt>Tilt (mode 1)</dt><dd id="s-tilt">+0.00</dd></div>
+            <div><dt>Concentration (mode 2)</dt><dd id="s-conc">+0.00</dd></div>
+          </dl>
+          <p class="cap">Spot-centered log-liquidity simulated from the SPIDE in its calibrated form: Gegenbauer modes damped at rate a·n(n+2α) and coupled through the fitted relocation matrix V, with parameters from Tables 4 and 7 of <a href="https://arxiv.org/abs/2610.30539" target="_blank" rel="noopener">Lee, Risk, Tung and Wang</a>. The highlighted stretch of the axis is the active band. Noise level and mean profiles are illustrative.</p>
+        </div>
+        <div class="slide off" id="slide-iv" role="tabpanel" aria-labelledby="tab-iv" aria-hidden="true">
+          <p class="viz-sub">Implied volatility of a liquidity position: ETH/USDC on Uniswap v3, Nov 17, 2025</p>
+          <div class="viz-controls">
+            <div class="segctl" role="group" aria-label="Time to expiry"><button type="button" data-exp="0" aria-pressed="true">39d</button><button type="button" data-exp="1" aria-pressed="false">130d</button><button type="button" data-exp="2" aria-pressed="false">221d</button><button type="button" data-exp="3" aria-pressed="false">312d</button></div>
+            <div class="segctl" role="group" aria-label="Pool fee tier"><button type="button" data-pool="0" aria-pressed="true">5bp</button><button type="button" data-pool="1" aria-pressed="false">30bp</button></div>
+            <div class="segctl" role="group" aria-label="Volatility model"><button type="button" data-model="0" aria-pressed="true">Black–Scholes</button><button type="button" data-model="1" aria-pressed="false">Bachelier</button></div>
+          </div>
+          <div class="viz-box"><svg id="iv-svg" viewBox="0 0 440 320" role="img" aria-label="Market implied volatility with its bid–ask range, and the liquidity-weighted implied volatility of the pool's position on 3, 12 and 48 log-moneyness bins."></svg></div>
+          <ul class="iv-legend" aria-hidden="true">
+            <li><span class="lsw lband"></span>Bid–ask range</li><li><span class="lsw lmkt"></span>Market IV</li>
+            <li><span class="lsw l3"></span>n = 3</li><li><span class="lsw l12"></span>n = 12</li><li><span class="lsw l48"></span>n = 48</li>
+          </ul>
+          <dl class="readout" aria-live="off">
+            <div><dt>Days to expiry</dt><dd id="iv-d">39</dd></div>
+            <div><dt>At-the-money IV</dt><dd id="iv-a">0.739</dd></div>
+            <div><dt>IL price / LP value</dt><dd id="iv-w">3.45%</dd></div>
+          </dl>
+          <p class="cap">Refining the bins brings the position's implied volatility onto the market smile. Data from Figures 2, 3 and 5 of <a href="https://arxiv.org/abs/2603.01344" target="_blank" rel="noopener">Risk, Tung and Wang</a>.</p>
+        </div>
+      </div>
+    </figure>
+  </section>
+
+  <section id="contact" class="sec wrap" aria-labelledby="h-contact">
+    <h2 id="h-contact">Contact</h2>
+    <div class="contact">
+      <dl>
+        <div class="big"><dt>Email</dt><dd><a href="mailto:tai-ho.wang@baruch.cuny.edu" id="email-text">tai-ho.wang@baruch.cuny.edu</a>
+          <button type="button" class="copy" id="copy-email">Copy</button></dd></div>
+        <div><dt>Phone</dt><dd>646.312.4130</dd></div>
+        <div><dt>Mail</dt><dd>Department of Mathematics, Box B6-230<br>Baruch College, The City University of New York<br>One Bernard Baruch Way<br>New York, NY 10010, USA</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="experience" class="sec wrap" aria-labelledby="h-exp">
+    <h2 id="h-exp">Academic experiences</h2>
+    <div class="gantt" role="img" aria-label="Timeline of academic positions from 1990 to 2026; the same information is listed below."><div class="g-rows"><div class="g-row"><span class="g-label">National Chiao Tung University</span><div class="g-track"><span class="g-deg" style="left:5.405%" title="B.Sc., 1992"><span class="g-deg-l">B.Sc.</span></span><span class="g-deg" style="left:10.811%" title="M.Sc., 1994"><span class="g-deg-l">M.Sc.</span></span><span class="g-deg" style="left:27.027%" title="Ph.D., 2000"><span class="g-deg-l">Ph.D.</span></span></div></div><div class="g-row"><span class="g-label">Academia Sinica</span><div class="g-track"><span class="g-bar k-post" style="left:28.604%;width:5.405%" title="Postdoc, Academia Sinica"></span></div></div><div class="g-row"><span class="g-label">Courant Institute, NYU</span><div class="g-track"><span class="g-bar k-visit" style="left:31.306%;width:2.703%" title="Visiting Member, Courant Institute, NYU"></span><span class="g-bar k-visit" style="left:44.820%;width:1.577%" title="Visiting Scholar, Courant Institute, NYU"></span></div></div><div class="g-row"><span class="g-label">National Chung Cheng University</span><div class="g-track"><span class="g-bar k-fac" style="left:34.009%;width:10.811%" title="Assistant Professor, National Chung Cheng University"></span><span class="g-bar k-fac" style="left:44.820%;width:5.405%" title="Associate Professor, National Chung Cheng University"></span></div></div><div class="g-row"><span class="g-label">Baruch College, CUNY</span><div class="g-track"><span class="g-bar k-fac" style="left:50.225%;width:10.811%" title="Associate Professor, Baruch College, CUNY"></span><span class="g-bar k-fac" style="left:61.036%;width:38.514%" title="Professor, Baruch College, CUNY"><span class="g-bar-l">Professor</span></span></div></div><div class="g-row"><span class="g-label">Ritsumeikan University</span><div class="g-track"><span class="g-bar k-visit" style="left:74.775%;width:1.126%" title="Visiting Professor, Ritsumeikan University"></span><span class="g-bar k-visit" style="left:93.694%;width:1.126%" title="Visiting Professor, Ritsumeikan University"></span></div></div><div class="g-row"><span class="g-label">Peking University</span><div class="g-track"><span class="g-bar k-visit" style="left:75.901%;width:1.351%" title="Visiting Professor, Peking University"></span></div></div><div class="g-row"><span class="g-label">University of Florence</span><div class="g-track"><span class="g-bar k-visit" style="left:99.099%;width:0.225%" title="Visiting Professor, University of Florence"></span></div></div><span class="g-now" style="left:calc(var(--label) + (100% - var(--label)) * 0.99550)" aria-hidden="true"></span></div><div class="g-row g-axis"><span class="g-label"></span><div class="g-track"><span class="g-tick" style="left:0.000%">1990</span><span class="g-tick" style="left:13.514%">1995</span><span class="g-tick" style="left:27.027%">2000</span><span class="g-tick" style="left:40.541%">2005</span><span class="g-tick" style="left:54.054%">2010</span><span class="g-tick" style="left:67.568%">2015</span><span class="g-tick" style="left:81.081%">2020</span><span class="g-tick" style="left:94.595%">2025</span></div></div></div>
+    <ul class="legend" aria-hidden="true">
+      <li><span class="sw k-fac"></span>Faculty position</li>
+      <li><span class="sw k-visit"></span>Visiting position</li>
+      <li><span class="sw k-post"></span>Postdoc</li>
+      <li><span class="sw sw-deg"></span>Degree</li>
+    </ul>
+    <div class="lists">
+      <div>
+        <h3>Positions</h3>
+        <ul class="plist">
+<li><span class="when">Aug 2012 – present</span><span><b>Professor</b>, Department of Mathematics, Baruch College, CUNY</span></li>
+<li><span class="when">Sep 2026</span><span><b>Visiting Professor</b>, Department of Economics and Management, University of Florence, Italy</span></li>
+<li><span class="when">Sep 2024 – Jan 2025</span><span><b>Visiting Professor</b>, Department of Mathematical Sciences, Ritsumeikan University, Japan</span></li>
+<li><span class="when">Feb 2018 – Jul 2018</span><span><b>Visiting Professor</b>, National School of Development, Peking University, China</span></li>
+<li><span class="when">Sep 2017 – Jan 2018</span><span><b>Visiting Professor</b>, Department of Mathematical Sciences, Ritsumeikan University, Japan</span></li>
+<li><span class="when">Aug 2008 – Jul 2012</span><span><b>Associate Professor</b>, Department of Mathematics, Baruch College, CUNY</span></li>
+<li><span class="when">Aug 2006 – Jul 2008</span><span><b>Associate Professor</b>, Department of Mathematics, National Chung Cheng University</span></li>
+<li><span class="when">Aug 2006 – Feb 2007</span><span><b>Visiting Scholar</b>, Courant Institute of Mathematical Sciences, New York University</span></li>
+<li><span class="when">Aug 2002 – Jul 2006</span><span><b>Assistant Professor</b>, Department of Mathematics, National Chung Cheng University</span></li>
+<li><span class="when">Aug 2001 – Jul 2002</span><span><b>Visiting Member</b>, Courant Institute of Mathematical Sciences, New York University</span></li>
+<li><span class="when">Aug 2000 – Jul 2002</span><span><b>Postdoc</b>, Institute of Mathematics, Academia Sinica, Taiwan</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Education</h3>
+        <ul class="plist">
+<li><span class="when">2000</span><span><b>Ph.D.</b>, Applied Mathematics, National Chiao Tung University. Advisor: Professor Yi-Jung Hsu</span></li>
+<li><span class="when">1994</span><span><b>M.Sc.</b>, Applied Mathematics, National Chiao Tung University</span></li>
+<li><span class="when">1992</span><span><b>B.Sc.</b>, Applied Mathematics, National Chiao Tung University</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="publications" class="sec wrap" aria-labelledby="h-pubs">
+    <h2 id="h-pubs">Publications</h2>
+    <div class="pubviz" id="pubviz" style="--n:27" aria-hidden="true"><div class="py-bars"><div class="py-col"><span class="seg" data-topic="prob" title="2000: Graphs with prescribed mean curvature in the sphere"></span></div><div class="py-col"><span class="seg" data-topic="prob" title="2001: Inequalities between Dirichlet and Neumann eigenvalues for domains on spheres"></span></div><div class="py-col"><span class="seg" data-topic="prob" title="2002: Global pinching theorem for surfaces of constant mean curvature on S³"></span></div><div class="py-col"></div><div class="py-col"><span class="seg" data-topic="vol" title="2004: What’s a basket worth?"></span></div><div class="py-col"><span class="seg" data-topic="vol" title="2005: Sharp upper and lower bounds for basket options"></span><span class="seg" data-topic="vol" title="2005: Static-arbitrage upper bounds for the prices of basket options"></span><span class="seg" data-topic="vol" title="2005: Static-arbitrage optimal sub-replicating strategies for basket options"></span><span class="seg" data-topic="vol" title="2005: Close form solutions for quadratic and inverse quadratic term structure models"></span></div><div class="py-col"><span class="seg" data-topic="prob" title="2006: Generating integrable one dimensional driftless diffusions"></span></div><div class="py-col"><span class="seg" data-topic="stats" title="2007: Influence functions and local influence in linear discriminant analysis"></span><span class="seg" data-topic="stats" title="2007: Pair-perturbation influence functions and local influence in PCA"></span><span class="seg" data-topic="stats" title="2007: Influence analysis of nongaussianity by applying projection pursuit"></span></div><div class="py-col"><span class="seg" data-topic="stats" title="2008: Pair-perturbation influence functions of non-gaussianity by projection pursuit"></span><span class="seg" data-topic="vol" title="2008: Distribution free upper bounds for spread options and market implied comonotonicity gap"></span></div><div class="py-col"><span class="seg" data-topic="vol" title="2009: Sharp distribution free lower bounds for spread options and the corresponding optimal subreplicating portfolios"></span></div><div class="py-col"><span class="seg" data-topic="vol" title="2010: Generalized uncorrelated SABR models with a high degree of symmetry"></span></div><div class="py-col"><span class="seg" data-topic="stats" title="2011: Sensitivity analysis of non-gaussianity by projection pursuit"></span></div><div class="py-col"><span class="seg" data-topic="vol" title="2012: Asymptotics of implied volatility in local volatility models"></span><span class="seg" data-topic="vol" title="2012: The heat-kernel most-likely-path approximation"></span></div><div class="py-col"></div><div class="py-col"></div><div class="py-col"><span class="seg" data-topic="vol" title="2015: Book review on Nonlinear Option Pricing by J. Guyon and P. Henry-Labordère"></span><span class="seg" data-topic="vol" title="2015: Implied volatility from local volatility: A path integral approach"></span></div><div class="py-col"></div><div class="py-col"><span class="seg" data-topic="exec" title="2017: Optimal execution with uncertain order fills in Almgren-Chriss framework"></span></div><div class="py-col"><span class="seg" data-topic="prob" title="2018: Bessel bridge representation for heat kernel in hyperbolic space"></span><span class="seg" data-topic="vol" title="2018: Most-likely-path in Asian option pricing under local volatility models"></span></div><div class="py-col"><span class="seg" data-topic="prob" title="2019: Bridge representation and modal-path approximation"></span><span class="seg" data-topic="vol" title="2019: Target volatility option pricing in lognormal fractional SABR model"></span><span class="seg" data-topic="exec" title="2019: Optimal execution with dynamic risk adjustment"></span><span class="seg" data-topic="vol" title="2019: Volatility and volatility-linked derivatives: estimation, modeling, and pricing"></span></div><div class="py-col"></div><div class="py-col"></div><div class="py-col"><span class="seg" data-topic="vol" title="2022: Probability density of lognormal fractional SABR model"></span></div><div class="py-col"><span class="seg" data-topic="exec" title="2023: Optimal order execution subject to reservation strategies under execution risk"></span></div><div class="py-col"><span class="seg" data-topic="exec" title="2024: Optimal order execution under price impact: A hybrid model"></span></div><div class="py-col"><span class="seg" data-topic="exec" title="2025: Relative entropy-regularized robust optimal order execution"></span><span class="seg" data-topic="amm" title="2025: Growth rate of liquidity provider’s wealth in G3Ms"></span><span class="seg" data-topic="amm" title="2025: Dynamics of liquidity surfaces in Uniswap v3"></span></div><div class="py-col"><span class="seg" data-topic="amm" title="2026: A mathematical framework for modeling CLMM dynamics in continuous time"></span><span class="seg" data-topic="amm" title="2026: Pricing and hedging for liquidity provision in constant function market making"></span><span class="seg" data-topic="amm" title="2026: Dynamics of the liquidity profile in concentrated liquidity provision: An SPIDE approach"></span></div></div><div class="py-axis"><span style="grid-column:1">2000</span><span style="grid-column:6">2005</span><span style="grid-column:11">2010</span><span style="grid-column:16">2015</span><span style="grid-column:21">2020</span><span style="grid-column:26">2025</span></div></div>
+    <div class="filters" role="group" aria-label="Filter articles by topic"><button type="button" class="chip" data-filter="all" aria-pressed="true">All <span class="c">37</span></button><button type="button" class="chip" data-filter="amm" aria-pressed="false"><span class="p-dot t-amm" aria-hidden="true"></span>Market making <span class="c">5</span></button><button type="button" class="chip" data-filter="exec" aria-pressed="false"><span class="p-dot t-exec" aria-hidden="true"></span>Execution <span class="c">5</span></button><button type="button" class="chip" data-filter="vol" aria-pressed="false"><span class="p-dot t-vol" aria-hidden="true"></span>Derivatives &amp; volatility <span class="c">16</span></button><button type="button" class="chip" data-filter="prob" aria-pressed="false"><span class="p-dot t-prob" aria-hidden="true"></span>Probability &amp; geometry <span class="c">6</span></button><button type="button" class="chip" data-filter="stats" aria-pressed="false"><span class="p-dot t-stats" aria-hidden="true"></span>Statistics <span class="c">5</span></button></div>
+    <p id="pub-status" class="status" aria-live="polite">All 37 articles, newest first</p>
+    <ol id="pub-list" class="pubs">
+<li data-topic="amm" data-year="2026"><span class="p-dot t-amm" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/2610.30539" target="_blank" rel="noopener">Dynamics of the liquidity profile in concentrated liquidity provision: An SPIDE approach<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Cheuk Yin Lee, Jimmy Risk, and Shen-Ning Tung<br>Preprint, arXiv</p></div><span class="p-year">2026</span></li>
+<li data-topic="amm" data-year="2026"><span class="p-dot t-amm" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/2603.01344" target="_blank" rel="noopener">Pricing and hedging for liquidity provision in constant function market making<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Jimmy Risk and Shen-Ning Tung<br>Preprint, arXiv</p></div><span class="p-year">2026</span></li>
+<li data-topic="amm" data-year="2026"><span class="p-dot t-amm" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://link.springer.com/epdf/10.1007/s42521-026-00198-z?sharing_token=-kiNbGjRnF78m3TLNsg-7Pe4RwlQNchNByi7wbcMAY7SMNIOOd4W2NCyJgYLYKIBIwcl7e-CrvaZPVNMpNvkywTA2-SnulS0FGXcbXXoOWivBPxst-wMkiJHql1pT4Sqi2SMt1LQa6rW6DWOI95yPnaAlRN6zgbp_b4yLAZtaT0%3D" target="_blank" rel="noopener">A mathematical framework for modeling CLMM dynamics in continuous time<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Shen-Ning Tung<br>Digital Finance, 8:39</p></div><span class="p-year">2026</span></li>
+<li data-topic="amm" data-year="2025"><span class="p-dot t-amm" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/2509.05013" target="_blank" rel="noopener">Dynamics of liquidity surfaces in Uniswap v3<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Jimmy Risk and Shen-Ning Tung<br>Preprint, arXiv</p></div><span class="p-year">2025</span></li>
+<li data-topic="amm" data-year="2025"><span class="p-dot t-amm" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/2403.18177" target="_blank" rel="noopener">Growth rate of liquidity provider’s wealth in G3Ms<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Cheuk Yin Lee and Shen-Ning Tung<br>Applied Mathematical Finance, 32(6), 379–422</p></div><span class="p-year">2025</span></li>
+<li data-topic="exec" data-year="2025"><span class="p-dot t-exec" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/2311.06476" target="_blank" rel="noopener">Relative entropy-regularized robust optimal order execution<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Meng Wang<br>Quantitative Finance, 25(3), 383–401</p></div><span class="p-year">2025</span></li>
+<li data-topic="exec" data-year="2024"><span class="p-dot t-exec" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/2112.02228" target="_blank" rel="noopener">Optimal order execution under price impact: A hybrid model<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Marina Di Giacinto and Claudio Tebaldi<br>Annals of Operations Research, 336, 606–636</p></div><span class="p-year">2024</span></li>
+<li data-topic="exec" data-year="2023"><span class="p-dot t-exec" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/2401.03305" target="_blank" rel="noopener">Optimal order execution subject to reservation strategies under execution risk<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Xue Cheng and Peng Guo<br>Preprint, arXiv and SSRN</p></div><span class="p-year">2023</span></li>
+<li data-topic="vol" data-year="2022"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://www.mdpi.com/2227-9091/10/8/156" target="_blank" rel="noopener">Probability density of lognormal fractional SABR model<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Jiro Akahori and Xiaoming Song<br>Risks, Special Issue “Emerging Topics in Finance and Risk Engineering – In Memory of Peter Carr”</p></div><span class="p-year">2022</span></li>
+<li data-topic="vol" data-year="2019"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://link.springer.com/article/10.1007/s10203-019-00271-w" target="_blank" rel="noopener">Volatility and volatility-linked derivatives: estimation, modeling, and pricing<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Elisa Alos and Maria Elvira Mancino<br>Decisions in Economics and Finance, 42(2), 321–349</p></div><span class="p-year">2019</span></li>
+<li data-topic="exec" data-year="2019"><span class="p-dot t-exec" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/1901.00617" target="_blank" rel="noopener">Optimal execution with dynamic risk adjustment<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Xue Cheng and Marina Di Giacinto<br>Journal of the Operational Research Society, 70(10), 1662–1677</p></div><span class="p-year">2019</span></li>
+<li data-topic="vol" data-year="2019"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/1801.08215" target="_blank" rel="noopener">Target volatility option pricing in lognormal fractional SABR model<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Elisa Alos, Rupak Chatterjee, and Sebastian Tudor<br>Quantitative Finance, 19(8), 1339–1356</p></div><span class="p-year">2019</span></li>
+<li data-topic="prob" data-year="2019"><span class="p-dot t-prob" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/1607.03074" target="_blank" rel="noopener">Bridge representation and modal-path approximation<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Jiro Akahori and Xiaoming Song<br>Stochastic Processes and their Applications, 129, 174–204</p></div><span class="p-year">2019</span></li>
+<li data-topic="vol" data-year="2018"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/1706.02408" target="_blank" rel="noopener">Most-likely-path in Asian option pricing under local volatility models<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Louis-Pierre Arguin and Nien-Lin Liu<br>International Journal of Theoretical and Applied Finance, 21(4), 1850029</p></div><span class="p-year">2018</span></li>
+<li data-topic="prob" data-year="2018"><span class="p-dot t-prob" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://arxiv.org/abs/1701.01194" target="_blank" rel="noopener">Bessel bridge representation for heat kernel in hyperbolic space<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Xue Cheng<br>Proceedings of the American Mathematical Society, 146(4), 1781–1792</p></div><span class="p-year">2018</span></li>
+<li data-topic="exec" data-year="2017"><span class="p-dot t-exec" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://www.tandfonline.com/eprint/55XnaAjGBR3qaePYrnvz/full" target="_blank" rel="noopener">Optimal execution with uncertain order fills in Almgren-Chriss framework<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Xue Cheng and Marina Di Giacinto<br>Quantitative Finance, 17(1), 55–69</p></div><span class="p-year">2017</span></li>
+<li data-topic="vol" data-year="2015"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2457618" target="_blank" rel="noopener">Implied volatility from local volatility: A path integral approach<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Jim Gatheral<br>Springer Proceedings in Mathematics &amp; Statistics, Vol. 110, Large Deviations and Asymptotic Methods in Finance, 247–271</p></div><span class="p-year">2015</span></li>
+<li data-topic="vol" data-year="2015"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">Book review on Nonlinear Option Pricing by J. Guyon and P. Henry-Labordère</span><p class="p-meta">Single author<br>Quantitative Finance, 15(1), 19–21</p></div><span class="p-year">2015</span></li>
+<li data-topic="vol" data-year="2012"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1663318" target="_blank" rel="noopener">The heat-kernel most-likely-path approximation<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Jim Gatheral<br>International Journal of Theoretical and Applied Finance, 15(1), 1250001</p></div><span class="p-year">2012</span></li>
+<li data-topic="vol" data-year="2012"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><a class="p-title" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1542077" target="_blank" rel="noopener">Asymptotics of implied volatility in local volatility models<svg class="ext" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false"><path d="M4 2.5h5.5V8M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><p class="p-meta">with Jim Gatheral, Elton Hsu, Peter Laurence, and Cheng Ouyang<br>Mathematical Finance, 22(4), 591–620</p></div><span class="p-year">2012</span></li>
+<li data-topic="stats" data-year="2011"><span class="p-dot t-stats" aria-hidden="true"></span><div class="p-body"><span class="p-title">Sensitivity analysis of non-gaussianity by projection pursuit</span><p class="p-meta">with Yufen Huang and Ching-Ren Cheng<br>Statistica Sinica, 21(4), 1713–1733</p></div><span class="p-year">2011</span></li>
+<li data-topic="vol" data-year="2010"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">Generalized uncorrelated SABR models with a high degree of symmetry</span><p class="p-meta">with Peter Laurence and Sheng-Li Wang<br>Quantitative Finance, 10(6), 663–679</p></div><span class="p-year">2010</span></li>
+<li data-topic="vol" data-year="2009"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">Sharp distribution free lower bounds for spread options and the corresponding optimal subreplicating portfolios</span><p class="p-meta">with Peter Laurence<br>Insurance: Mathematics and Economics, 34(1), 35–47</p></div><span class="p-year">2009</span></li>
+<li data-topic="vol" data-year="2008"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">Distribution free upper bounds for spread options and market implied comonotonicity gap</span><p class="p-meta">with Peter Laurence<br>The European Journal of Finance, 11(8), 717–734</p></div><span class="p-year">2008</span></li>
+<li data-topic="stats" data-year="2008"><span class="p-dot t-stats" aria-hidden="true"></span><div class="p-body"><span class="p-title">Pair-perturbation influence functions of non-gaussianity by projection pursuit</span><p class="p-meta">with Yufen Huang and Ching-Ren Cheng<br>Computational Statistics and Data Analysis, 52(8), 3971–3987</p></div><span class="p-year">2008</span></li>
+<li data-topic="stats" data-year="2007"><span class="p-dot t-stats" aria-hidden="true"></span><div class="p-body"><span class="p-title">Influence analysis of nongaussianity by applying projection pursuit</span><p class="p-meta">with Yufen Huang and Ching-Ren Cheng<br>Statistics and Probability Letters, 77(14), 1515–1521</p></div><span class="p-year">2007</span></li>
+<li data-topic="stats" data-year="2007"><span class="p-dot t-stats" aria-hidden="true"></span><div class="p-body"><span class="p-title">Pair-perturbation influence functions and local influence in PCA</span><p class="p-meta">with Yufen Huang and Mei-Ling Kuo<br>Computational Statistics and Data Analysis, 51(12), 5886–5899</p></div><span class="p-year">2007</span></li>
+<li data-topic="stats" data-year="2007"><span class="p-dot t-stats" aria-hidden="true"></span><div class="p-body"><span class="p-title">Influence functions and local influence in linear discriminant analysis</span><p class="p-meta">with Yufen Huang and Tzu-Ling Kao<br>Computational Statistics and Data Analysis, 51(8), 3844–3861</p></div><span class="p-year">2007</span></li>
+<li data-topic="prob" data-year="2006"><span class="p-dot t-prob" aria-hidden="true"></span><div class="p-body"><span class="p-title">Generating integrable one dimensional driftless diffusions</span><p class="p-meta">with Peter Carr and Peter Laurence<br>Comptes Rendus Mathématique, Académie des Sciences, Paris, 343(6), 393–398</p></div><span class="p-year">2006</span></li>
+<li data-topic="vol" data-year="2005"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">Close form solutions for quadratic and inverse quadratic term structure models</span><p class="p-meta">with Peter Laurence<br>International Journal of Theoretical and Applied Finance, 8(8), 1059–1083</p></div><span class="p-year">2005</span></li>
+<li data-topic="vol" data-year="2005"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">Static-arbitrage optimal sub-replicating strategies for basket options</span><p class="p-meta">with David Hobson and Peter Laurence<br>Insurance: Mathematics and Economics, 37, 553–572</p></div><span class="p-year">2005</span></li>
+<li data-topic="vol" data-year="2005"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">Static-arbitrage upper bounds for the prices of basket options</span><p class="p-meta">with David Hobson and Peter Laurence<br>Quantitative Finance, 5(4), 329–342</p></div><span class="p-year">2005</span></li>
+<li data-topic="vol" data-year="2005"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">Sharp upper and lower bounds for basket options</span><p class="p-meta">with Peter Laurence<br>Applied Mathematical Finance, 12(3), 253–282</p></div><span class="p-year">2005</span></li>
+<li data-topic="vol" data-year="2004"><span class="p-dot t-vol" aria-hidden="true"></span><div class="p-body"><span class="p-title">What’s a basket worth?</span><p class="p-meta">with Peter Laurence<br>Risk Magazine, February, 73–74</p></div><span class="p-year">2004</span></li>
+<li data-topic="prob" data-year="2002"><span class="p-dot t-prob" aria-hidden="true"></span><div class="p-body"><span class="p-title">Global pinching theorem for surfaces of constant mean curvature on S³</span><p class="p-meta">with Yi-Jung Hsu<br>Proceedings of the American Mathematical Society, 130(1), 157–161</p></div><span class="p-year">2002</span></li>
+<li data-topic="prob" data-year="2001"><span class="p-dot t-prob" aria-hidden="true"></span><div class="p-body"><span class="p-title">Inequalities between Dirichlet and Neumann eigenvalues for domains on spheres</span><p class="p-meta">with Yi-Jung Hsu<br>Taiwanese Journal of Mathematics, 5(4), 755–766</p></div><span class="p-year">2001</span></li>
+<li data-topic="prob" data-year="2000"><span class="p-dot t-prob" aria-hidden="true"></span><div class="p-body"><span class="p-title">Graphs with prescribed mean curvature in the sphere</span><p class="p-meta">with Yi-Jung Hsu and Sheng-Jong Shiau<br>Bulletin of the Institute of Mathematics, Academia Sinica, 28(4), 215–223</p></div><span class="p-year">2000</span></li>
+    </ol>
+    <h3>Book contributions</h3>
+    <ol class="pubs">
+<li><span class="p-dot t-book" aria-hidden="true"></span><div class="p-body"><span class="p-title">What’s a basket worth?</span><p class="p-meta">with Peter Laurence<br>In Structured Products: Groundbreaking technical papers introduced and explained by Dilip Madan, Risk Books</p></div><span class="p-year">2009</span></li>
+<li><span class="p-dot t-book" aria-hidden="true"></span><div class="p-body"><span class="p-title">What’s a basket worth?</span><p class="p-meta">with Peter Laurence<br>In Derivatives Trading and Option Pricing, N. Dunbar (Ed.), Risk Books</p></div><span class="p-year">2005</span></li>
+    </ol>
+  </section>
+</main>
+
+<footer class="foot wrap">
+  <p>&copy; 2026 Tai-Ho Wang</p>
+  <p>Last updated October 2026</p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var mqLight = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+  var toggle = document.getElementById('theme-toggle');
+  function theme() {
+    var t = root.getAttribute('data-theme');
+    if (t === 'light' || t === 'dark') return t;
+    return mqLight && mqLight.matches ? 'light' : 'dark';
+  }
+  function syncToggle() { toggle.setAttribute('aria-label', theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'); }
+  toggle.addEventListener('click', function () {
+    var next = theme() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (err) {}
+    syncToggle(); readTheme(); draw();
+  });
+  if (mqLight && mqLight.addEventListener) mqLight.addEventListener('change', function () { syncToggle(); readTheme(); draw(); });
+  syncToggle();
+
+  /* counts and per-year strip come from the list itself, so adding a paper only needs one new <li> */
+  (function () {
+    function esc(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+    var lis = document.querySelectorAll('#pub-list > li'), counts = { all: lis.length }, byYear = {}, minY = 2000, maxY = 0;
+    Array.prototype.forEach.call(lis, function (li) {
+      var t = li.getAttribute('data-topic'), y = +li.getAttribute('data-year'), ti = li.querySelector('.p-title');
+      counts[t] = (counts[t] || 0) + 1;
+      if (y) { (byYear[y] = byYear[y] || []).push({ t: t, title: ti ? ti.textContent : '' }); if (y > maxY) maxY = y; if (y < minY) minY = y; }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-filter]'), function (c) {
+      var el = c.querySelector('.c'); if (el) el.textContent = counts[c.getAttribute('data-filter')] || 0;
+    });
+    document.getElementById('pub-status').textContent = 'All ' + lis.length + ' articles, newest first';
+    var viz = document.getElementById('pubviz'); if (!viz || !maxY) return;
+    viz.style.setProperty('--n', maxY - minY + 1);
+    var bars = '', axis = '';
+    for (var y = minY; y <= maxY; y++) {
+      bars += '<div class="py-col">' + (byYear[y] || []).slice().reverse().map(function (a) {
+        return '<span class="seg" data-topic="' + a.t + '" title="' + y + ': ' + esc(a.title) + '"></span>';
+      }).join('') + '</div>';
+      if ((y - minY) % 5 === 0) axis += '<span style="grid-column:' + (y - minY + 1) + '">' + y + '</span>';
+    }
+    viz.querySelector('.py-bars').innerHTML = bars;
+    viz.querySelector('.py-axis').innerHTML = axis;
+  })();
+
+  /* filters */
+  var chips = document.querySelectorAll('[data-filter]');
+  var items = document.querySelectorAll('#pub-list > li');
+  var status = document.getElementById('pub-status');
+  var viz = document.getElementById('pubviz');
+  Array.prototype.forEach.call(chips, function (chip) {
+    chip.addEventListener('click', function () {
+      var f = chip.getAttribute('data-filter'), n = 0;
+      Array.prototype.forEach.call(chips, function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
+      Array.prototype.forEach.call(items, function (li) {
+        var show = f === 'all' || li.getAttribute('data-topic') === f;
+        li.hidden = !show; if (show) n++;
+      });
+      if (f === 'all') viz.removeAttribute('data-active'); else viz.setAttribute('data-active', f);
+      var label = chip.textContent.replace(/\s*\d+\s*$/, '').trim();
+      status.textContent = f === 'all' ? 'All ' + items.length + ' articles, newest first' : n + ' of ' + items.length + ' articles: ' + label;
+    });
+  });
+
+  /* copy */
+  var copyBtn = document.getElementById('copy-email'), emailEl = document.getElementById('email-text');
+  copyBtn.addEventListener('click', function () {
+    function done(l) { copyBtn.textContent = l; setTimeout(function () { copyBtn.textContent = 'Copy'; }, 1600); }
+    function fallback() { var r = document.createRange(); r.selectNodeContents(emailEl); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done('Selected'); }
+    try { navigator.clipboard.writeText(emailEl.textContent).then(function () { done('Copied'); }, fallback); } catch (err) { fallback(); }
+  });
+
+  /* ---------- liquidity surface (ridgelines), drawn as a framed figure ---------- */
+  var cv = document.getElementById('surface'), ctx = cv.getContext('2d');
+  var MAGMA = [[0,0,4],[28,16,68],[79,18,123],[129,37,129],[181,54,122],[229,80,100],[251,135,97],[254,194,135],[252,253,191]];
+  function magma(t) {
+    t = Math.max(0, Math.min(1, t));
+    var x = t * (MAGMA.length - 1), i = Math.min(MAGMA.length - 2, Math.floor(x)), f = x - i, a = MAGMA[i], b = MAGMA[i + 1];
+    return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' + Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ')';
+  }
+  var BINS = 28, pal = [], panel = '#000', dotColor = '#fff', axisCol = '#888', accentCol = '#f80', fontF = 'sans-serif';
+  function readTheme() {
+    var cs = getComputedStyle(root), light = theme() === 'light';
+    panel = cs.getPropertyValue('--viz').trim();
+    axisCol = cs.getPropertyValue('--fg-2').trim();
+    accentCol = cs.getPropertyValue('--accent').trim();
+    fontF = cs.getPropertyValue('--f').trim();
+    dotColor = light ? cs.getPropertyValue('--fg').trim() : '#fcfdbf';
+    var lo = light ? 0.18 : 0.30, hi = light ? 0.74 : 0.97;
+    pal = []; for (var i = 0; i < BINS; i++) pal.push(magma(lo + (hi - lo) * i / (BINS - 1)));
+  }
+
+  function randn() { var u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+  /* ---- SPIDE, additive OU branch: spot-centered log-liquidity u_t(x) on [-1, 1] in 7 Gegenbauer modes.
+     One step = 8 hours: c <- Phi c + chol(Sigma) z, with Phi = exp(-(Lambda + V)) from the paper's fitted parameters. ---- */
+  var SP = {"ARB5":{"label":"WETH\u2013USDC 5 bps on Arbitrum","alpha":0.35,"a":0.0173,"fit":"Dense-3 with penalty, Full block","mean":[0.0,0.0,-1.5,0.0,0.0],"norm":[0.672266,1.578066,2.258306,2.84217,3.367452,3.851854,4.305444],"Phi":[[0.93448,-0.013181,-0.011001,0.0,0.0,0.0,0.0],[-0.038561,0.947316,0.002072,0.0,0.0,0.0,0.0],[0.008203,0.001786,0.897203,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.825282,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.722354,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.610761,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.498845]],"cholS":[[0.06,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.054,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.048,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.036,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.03,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.024,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.018]],"cholP":[[0.176314,0.0,0.0,0.0,0.0,0.0,0.0],[-0.079446,0.180343,0.0,0.0,0.0,0.0,0.0],[0.003596,-0.000334,0.108868,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.063748,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.043382,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.03031,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.020769]],"rho":0.9641,"minReEig":0.0366,"ustd_center":0.149,"ustd_mean":0.188},"ETH5":{"label":"WETH\u2013USDC 5 bps on Ethereum","alpha":0.4,"a":0.0155,"fit":"Dense-3 with penalty, Full block","mean":[0.0,0.0,-3.4,0.0,0.0],"norm":[0.684424,1.431576,1.975763,2.434167,2.841027,3.212257,3.556846],"Phi":[[0.979377,-0.022121,0.020848,0.0,0.0,0.0,0.0],[2.9e-05,0.958035,0.003757,0.0,0.0,0.0,0.0],[0.014245,0.013924,0.920718,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.838031,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.742598,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.637947,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.531315]],"cholS":[[0.06,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.054,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.048,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.036,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.03,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.024,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.018]],"cholP":[[0.343037,0.0,0.0,0.0,0.0,0.0,0.0],[-0.029161,0.186917,0.0,0.0,0.0,0.0,0.0],[0.05336,0.026856,0.124395,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.06598,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.044794,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.031166,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.021247]],"rho":0.9835,"minReEig":0.01666,"ustd_center":0.221,"ustd_mean":0.279},"ETH30":{"label":"WETH\u2013USDC 30 bps on Ethereum","alpha":0.5,"a":0.0019,"fit":"Sparse SPIDE, Full block","mean":[0.0,0.0,-2.4,0.0,1.1],"norm":[0.707107,1.224745,1.581139,1.870829,2.12132,2.345208,2.54951],"Phi":[[0.998002,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.994217,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.988665,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.977458,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.962713,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.944594,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.923301]],"cholS":[[0.06,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.054,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.048,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.036,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.03,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.024,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.018]],"cholP":[[0.949632,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.502832,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.319701,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.170511,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.110895,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.073117,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.046866]],"rho":0.998,"minReEig":0.002,"ustd_center":0.724,"ustd_mean":0.804}};
+  var NK = 7, pool = 'ETH5', P = SP[pool], cvec = new Float64Array(NK), simT = 0;
+  var ROWS = 34, COLS = 80, TICK = 0.12, LMAX = 1.45, STEP_H = 8;
+  var basis = [], ubar = new Float64Array(0);
+  function buildBasis() {
+    basis = []; ubar = new Float64Array(COLS);
+    for (var n = 0; n < NK; n++) basis.push(new Float64Array(COLS));
+    for (var i = 0; i < COLS; i++) {
+      var x = -1 + 2 * i / (COLS - 1), al = P.alpha, Cs = [1, 2 * al * x];
+      for (var k = 1; k < NK - 1; k++) Cs.push((2 * x * (k + al) * Cs[k] - (k + 2 * al - 1) * Cs[k - 1]) / (k + 1));
+      for (n = 0; n < NK; n++) basis[n][i] = Cs[n] * P.norm[n];
+      var m = 0, xp = 1;
+      for (k = 0; k < P.mean.length; k++) { m += P.mean[k] * xp; xp *= x; }
+      ubar[i] = m;
+    }
+  }
+  function step() {
+    simT += 1;
+    var z = [], nc = new Float64Array(NK), i, j;
+    for (i = 0; i < NK; i++) z.push(randn());
+    for (i = 0; i < NK; i++) {
+      var v = 0;
+      for (j = 0; j < NK; j++) v += P.Phi[i][j] * cvec[j];
+      for (j = 0; j <= i; j++) v += P.cholS[i][j] * z[j];
+      nc[i] = v;
+    }
+    cvec = nc;
+  }
+  function profile(c) {
+    var L = new Float32Array(COLS);
+    for (var i = 0; i < COLS; i++) {
+      var u = ubar[i];
+      for (var n = 0; n < NK; n++) u += c[n] * basis[n][i];
+      L[i] = Math.exp(Math.max(-6, Math.min(1.1, u)));
+    }
+    return L;
+  }
+  var hist = [], acc = 0, phase = 0;
+  function snapshot() {
+    var c = new Float64Array(cvec);
+    hist.unshift({ c: c, L: profile(c) });
+    if (hist.length > ROWS + 1) hist.pop();
+  }
+  function advance(dt) {
+    acc += dt;
+    while (acc >= TICK) { acc -= TICK; step(); snapshot(); }
+    phase = acc / TICK;
+  }
+  function refill() { hist = []; for (var i = 0; i < ROWS + 1; i++) { step(); snapshot(); } }
+
+  var rLev = document.getElementById('s-lev'), rTilt = document.getElementById('s-tilt'), rConc = document.getElementById('s-conc');
+  var subEl = document.getElementById('surf-sub');
+  var lastRead = -1;
+  function fmt(v) { if (Math.abs(v) < 0.005) return '0.00'; return (v > 0 ? '+' : '−') + Math.abs(v).toFixed(2); }
+  function readouts(force) {
+    if (!hist.length) return;
+    if (!force && simT - lastRead < 2) return;
+    lastRead = simT;
+    var c = hist[0].c;
+    rLev.textContent = fmt(c[0]); rTilt.textContent = fmt(c[1]); rConc.textContent = fmt(-c[2]);
+  }
+  function setPool(name) {
+    pool = name; P = SP[name]; cvec = new Float64Array(NK);
+    buildBasis();
+    for (var b = 0; b < 30; b++) step();
+    refill();
+    subEl.textContent = 'SPIDE fitted to ' + P.label + ' (' + P.fit + '). One ridge every 8 hours.';
+    readouts(true); draw();
+  }
+
+  var W = 0, H = 0, tilt = 0, tiltTarget = 0;
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+    W = r.width; H = r.height;
+    if (!W || !H) return;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var nc = Math.round(Math.max(44, Math.min(110, W / 9)));
+    if (nc !== COLS) { COLS = nc; buildBasis(); hist.forEach(function (row) { row.L = profile(row.c); }); }
+    draw();
+  }
+  function draw() {
+    if (!W || !hist.length) return;
+    ctx.clearRect(0, 0, W, H);
+    var xL = 46, xR = W - 18, fspan = xR - xL, cx0 = (xL + xR) / 2;
+    var yF = H - 36, yB = 12 + (yF - 12) * 0.34, ampF = Math.min((yF - 12) * 0.56, fspan * 0.5);
+    var BACK = 0.55, xs = new Float32Array(COLS), ys = new Float32Array(COLS);
+    /* axes: log price along the front edge, time along the left edge */
+    var xBack = cx0 - fspan * BACK / 2;
+    ctx.globalAlpha = 0.7; ctx.strokeStyle = axisCol; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(xL, yF + 5); ctx.lineTo(xR, yF + 5); ctx.moveTo(xL, yF + 5); ctx.lineTo(xBack, yB + 5); ctx.stroke();
+    ctx.globalAlpha = 1; ctx.fillStyle = axisCol; ctx.font = '11px ' + fontF; ctx.textAlign = 'center';
+    [-1, -0.5, 0, 0.5, 1].forEach(function (tk) {
+      var x = xL + (tk + 1) / 2 * fspan;
+      ctx.beginPath(); ctx.moveTo(x, yF + 5); ctx.lineTo(x, yF + 9); ctx.stroke();
+      ctx.fillText(tk === 0 ? '0' : (tk < 0 ? '−' : '') + Math.abs(tk), x, yF + 21);
+    });
+    ctx.strokeStyle = accentCol; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(xL + 0.25 * fspan, yF + 5); ctx.lineTo(xL + 0.75 * fspan, yF + 5); ctx.stroke();
+    ctx.lineWidth = 1; ctx.strokeStyle = axisCol;
+    ctx.textAlign = 'right'; ctx.fillText('tick rank (0 = pool price)', xR, H - 4);
+    ctx.fillText('now', xL - 6, yF + 9);
+    /* ridges, back to front */
+    for (var r = hist.length - 1; r >= 0; r--) {
+      var d = (r + phase) / ROWS;
+      if (d > 1) continue;
+      var row = hist[r];
+      var y0 = yF - (yF - yB) * Math.pow(d, 0.85);
+      var sc = 1 - (1 - BACK) * d;
+      var cx = cx0 + tilt * d * fspan * 0.12;
+      var span = fspan * sc, amp = ampF * sc;
+      for (var c = 0; c < COLS; c++) {
+        xs[c] = cx + (c / (COLS - 1) - 0.5) * span;
+        ys[c] = y0 - amp * Math.min(1.15, row.L[c] / LMAX);
+      }
+      var alpha = Math.pow(1 - d, 0.55);
+      if (d > 0.85) alpha *= (1 - d) / 0.15;
+      if (r === 0) alpha *= Math.min(1, phase * 2.5);
+      if (alpha <= 0.01) continue;
+      ctx.globalAlpha = 1; ctx.fillStyle = panel; ctx.beginPath();
+      ctx.moveTo(xs[0], y0 + 2);
+      for (c = 0; c < COLS; c++) ctx.lineTo(xs[c], ys[c]);
+      ctx.lineTo(xs[COLS - 1], y0 + 2); ctx.closePath(); ctx.fill();
+      ctx.globalAlpha = alpha; ctx.lineWidth = 1.5 - 0.6 * d; ctx.lineJoin = 'round';
+      var cur = -1;
+      for (c = 0; c < COLS - 1; c++) {
+        var h = Math.min(1, 0.5 * (row.L[c] + row.L[c + 1]) / LMAX);
+        var bin = Math.min(BINS - 1, Math.floor(h * BINS));
+        if (bin !== cur) {
+          if (cur >= 0) ctx.stroke();
+          cur = bin; ctx.strokeStyle = pal[bin]; ctx.beginPath(); ctx.moveTo(xs[c], ys[c]);
+        }
+        ctx.lineTo(xs[c + 1], ys[c + 1]);
+      }
+      ctx.stroke();
+      var pc = 0.5 * (COLS - 1), i0 = Math.floor(pc), f = pc - i0;
+      var px = xs[i0] + (xs[Math.min(COLS - 1, i0 + 1)] - xs[i0]) * f;
+      var py = ys[i0] + (ys[Math.min(COLS - 1, i0 + 1)] - ys[i0]) * f;
+      ctx.fillStyle = dotColor; ctx.beginPath(); ctx.arc(px, py - 1, 2.1 - 0.9 * d, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    /* time-axis label on top of the ridges */
+    ctx.fillStyle = axisCol; ctx.font = '11px ' + fontF; ctx.textAlign = 'right';
+    ctx.fillText(Math.round(ROWS * STEP_H / 24) + ' days ago', xBack - 6, yB + 9);
+  }
+
+  readTheme();
+  buildBasis();
+  for (var k = 0; k < 30; k++) step();
+  refill();
+  readouts(true);
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var paused = reduce, running = false, visible = true, last = 0, raf = 0, surfShown = true;
+  var playBtn = document.getElementById('surf-play');
+  function syncPlay() { playBtn.textContent = paused ? 'Play' : 'Pause'; playBtn.setAttribute('aria-pressed', String(paused)); }
+  function frame(ts) {
+    if (!running) return;
+    if (!last) last = ts;
+    var dt = Math.min(0.05, (ts - last) / 1000); last = ts;
+    tilt += (tiltTarget - tilt) * Math.min(1, dt * 3);
+    advance(dt); draw(); readouts(false);
+    raf = requestAnimationFrame(frame);
+  }
+  function setRunning(on) {
+    on = on && !paused && visible && !document.hidden && surfShown;
+    if (on === running) return;
+    running = on; last = 0;
+    if (on) raf = requestAnimationFrame(frame); else cancelAnimationFrame(raf);
+  }
+  playBtn.addEventListener('click', function () { paused = !paused; syncPlay(); setRunning(true); });
+  var spoolBtns = document.querySelectorAll('[data-spool]');
+  Array.prototype.forEach.call(spoolBtns, function (b) {
+    b.addEventListener('click', function () {
+      Array.prototype.forEach.call(spoolBtns, function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      setPool(b.getAttribute('data-spool'));
+    });
+  });
+  syncPlay();
+  if (!reduce) {
+    window.addEventListener('pointermove', function (ev) {
+      if (ev.pointerType === 'mouse') tiltTarget = (ev.clientX / window.innerWidth) * 2 - 1;
+    }, { passive: true });
+  }
+  if ('ResizeObserver' in window) new ResizeObserver(resize).observe(cv); else window.addEventListener('resize', resize);
+  resize();
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; setRunning(true); }).observe(cv);
+  document.addEventListener('visibilitychange', function () { setRunning(true); });
+  setRunning(true);
+
+  /* ---------- implied volatility figure: exact data from Figs. 2, 3 and 5 of the paper ---------- */
+  var IVD = {"days":[39,130,221,312],"ril":[[344.9,960.9,1447.5,1876.4],[511.9,1205.0,1693.3,2083.8]],"nu":61,"S":{"bs":[[{"x0":-0.344,"x1":0.3936,"my":[0.85026,0.8448,0.83933,0.83387,0.82841,0.82295,0.81748,0.81202,0.80737,0.80278,0.7982,0.79367,0.7892,0.78472,0.78063,0.7771,0.77356,0.77003,0.76649,0.76295,0.75935,0.75563,0.75191,0.74938,0.74789,0.7464,0.74403,0.74141,0.73897,0.73811,0.73725,0.73602,0.73443,0.73287,0.73237,0.73187,0.73108,0.73011,0.72942,0.72968,0.72995,0.73134,0.73281,0.73362,0.73417,0.73515,0.7365,0.73789,0.73935,0.74168,0.7455,0.74882,0.75126,0.75394,0.75697,0.76074,0.76527,0.76953,0.77361,0.77616,0.7783],"hi":[0.8552,0.84953,0.84385,0.83818,0.8325,0.82683,0.82115,0.81548,0.8107,0.806,0.8013,0.79709,0.79322,0.78936,0.78559,0.78195,0.77832,0.77468,0.77104,0.76741,0.76362,0.75959,0.75556,0.75285,0.75123,0.7496,0.74749,0.74525,0.74314,0.74223,0.74133,0.74036,0.73934,0.73832,0.73727,0.73622,0.73536,0.73462,0.73409,0.73417,0.73425,0.73579,0.73737,0.73914,0.741,0.74209,0.74242,0.74335,0.74498,0.74747,0.75154,0.75461,0.75559,0.75817,0.76349,0.76746,0.77008,0.77387,0.77835,0.78106,0.78319],"lo":[0.84541,0.84013,0.83485,0.82958,0.8243,0.81902,0.81374,0.80847,0.80398,0.79956,0.79514,0.79019,0.78487,0.77954,0.77505,0.77172,0.76839,0.76506,0.76173,0.7584,0.75487,0.75104,0.7472,0.74387,0.74095,0.73803,0.73685,0.73616,0.73544,0.73456,0.73368,0.73193,0.7293,0.72684,0.7273,0.72775,0.72738,0.72651,0.72583,0.72571,0.72559,0.7269,0.72824,0.72814,0.72743,0.72827,0.73062,0.73242,0.73358,0.73559,0.73915,0.74282,0.74673,0.74951,0.75033,0.75391,0.76024,0.76513,0.76917,0.77131,0.77284],"dx":[-0.344,-0.257,-0.2162,-0.177,-0.1029,-0.0678,-0.0339,-0.0011,0.0307,0.0614,0.0913,0.1203,0.1484,0.1758,0.2025,0.2285,0.2538,0.2785,0.3026,0.3261,0.3491,0.3716,0.3936],"dy":[0.85026,0.8116,0.79638,0.7821,0.76079,0.75017,0.74607,0.73906,0.73684,0.73288,0.73166,0.72936,0.72996,0.73322,0.73442,0.73727,0.74026,0.74794,0.75272,0.75851,0.767,0.77447,0.7783],"atm":0.73898,"n3":[0.85673,0.73955,0.74309],"n12":[0.86866,0.83639,0.80214,0.78317,0.76187,0.74491,0.73715,0.73185,0.73266,0.73845,0.75255,0.77221],"n48":[0.88077,0.87153,0.86066,0.8525,0.84709,0.84154,0.83385,0.82413,0.81331,0.80754,0.80064,0.79457,0.78904,0.7834,0.78229,0.77919,0.77311,0.76427,0.75881,0.75336,0.7503,0.74806,0.74533,0.74162,0.73958,0.73809,0.73667,0.73411,0.73359,0.7322,0.73149,0.73019,0.73063,0.73202,0.73354,0.73485,0.73557,0.73743,0.73961,0.74216,0.74719,0.75117,0.75453,0.75875,0.76462,0.77042,0.77534,0.7785],"dom":[0.71473,0.89163]},{"x0":-0.352,"x1":0.3856,"my":[0.75751,0.75555,0.75358,0.75162,0.74966,0.7477,0.74573,0.74377,0.74211,0.74048,0.73884,0.73721,0.73557,0.73394,0.73257,0.73159,0.73061,0.72963,0.72866,0.72768,0.72678,0.72602,0.72526,0.7245,0.72374,0.72298,0.72253,0.72218,0.72183,0.72149,0.72114,0.72081,0.72049,0.72017,0.71986,0.71954,0.71963,0.72,0.72039,0.72089,0.72138,0.72125,0.72108,0.72092,0.72075,0.72105,0.72176,0.72248,0.72319,0.72388,0.72455,0.72522,0.72589,0.72679,0.72804,0.72928,0.73053,0.73166,0.73271,0.73412,0.73562],"hi":[0.76264,0.76063,0.75862,0.75661,0.7546,0.75259,0.75058,0.74857,0.747,0.74547,0.74393,0.74237,0.74078,0.7392,0.73792,0.73708,0.73624,0.73539,0.73455,0.73371,0.73285,0.73196,0.73107,0.73017,0.72928,0.72839,0.72791,0.72754,0.72717,0.7268,0.72644,0.72602,0.72557,0.72511,0.72466,0.72421,0.72405,0.72408,0.72423,0.72471,0.72518,0.7252,0.72516,0.72512,0.72508,0.72559,0.72664,0.72769,0.72873,0.72956,0.72997,0.73038,0.73079,0.73154,0.73285,0.73416,0.73547,0.73665,0.73775,0.73923,0.74082],"lo":[0.75222,0.75044,0.74866,0.74688,0.7451,0.74332,0.74154,0.73976,0.73761,0.73543,0.73326,0.73155,0.73016,0.72878,0.72752,0.72644,0.72536,0.72428,0.7232,0.72212,0.72117,0.7204,0.71964,0.71887,0.71811,0.71735,0.71695,0.71666,0.71636,0.71607,0.71578,0.71563,0.71563,0.71563,0.71563,0.71563,0.71565,0.71568,0.71583,0.71629,0.71674,0.71672,0.71664,0.71656,0.71648,0.71666,0.7171,0.71754,0.71798,0.71857,0.71944,0.7203,0.72117,0.72216,0.72333,0.72451,0.72569,0.72673,0.72768,0.72899,0.73041],"dx":[-0.352,-0.265,-0.2241,-0.1849,-0.1108,-0.0418,0.0227,0.0834,0.1123,0.1405,0.1946,0.2459,0.2947,0.3412,0.3637,0.3856],"dy":[0.75751,0.74362,0.73818,0.73297,0.72707,0.7228,0.72097,0.71941,0.72028,0.72141,0.72067,0.72364,0.7263,0.73101,0.73294,0.73562],"atm":0.72161,"n3":[0.76049,0.72252,0.72604],"n12":[0.76431,0.75148,0.73923,0.73317,0.72794,0.72391,0.72197,0.72047,0.72189,0.7237,0.72779,0.73379],"n48":[0.76833,0.7643,0.76002,0.75729,0.75586,0.75357,0.75043,0.74641,0.74311,0.74118,0.7384,0.73669,0.73413,0.73333,0.73317,0.73195,0.72972,0.72748,0.72766,0.72707,0.72542,0.72328,0.72384,0.72381,0.72273,0.7214,0.72197,0.72175,0.72041,0.71994,0.72038,0.72112,0.72163,0.72238,0.72222,0.72122,0.72237,0.72358,0.72382,0.72511,0.72625,0.72654,0.7284,0.7302,0.73125,0.73265,0.73447,0.73676],"dom":[0.71194,0.77202]},{"x0":-0.3613,"x1":0.3763,"my":[0.73521,0.73401,0.73281,0.73161,0.73041,0.7292,0.728,0.7268,0.72593,0.72509,0.72424,0.72354,0.72293,0.72231,0.72165,0.72093,0.7202,0.71947,0.71875,0.71802,0.71747,0.71719,0.71692,0.71665,0.71638,0.7161,0.71578,0.71544,0.71511,0.71477,0.71443,0.71427,0.71426,0.71426,0.71426,0.71425,0.71423,0.71419,0.71413,0.71399,0.71386,0.71429,0.71476,0.71523,0.71569,0.716,0.71618,0.71635,0.71652,0.71683,0.71738,0.71793,0.71848,0.71912,0.71988,0.72064,0.7214,0.72214,0.72287,0.72355,0.72423],"hi":[0.74293,0.74162,0.74028,0.73893,0.73759,0.73624,0.7349,0.73356,0.73249,0.73146,0.73043,0.72986,0.72964,0.72941,0.72896,0.72812,0.72729,0.72646,0.72563,0.7248,0.72417,0.72389,0.7236,0.72331,0.72303,0.72274,0.72224,0.72167,0.72111,0.72054,0.71997,0.71965,0.71952,0.71939,0.71925,0.71912,0.71905,0.71901,0.71895,0.7188,0.71865,0.71911,0.7196,0.72009,0.72058,0.72087,0.72103,0.72118,0.72133,0.72155,0.72193,0.7223,0.72268,0.72322,0.724,0.72478,0.72555,0.72634,0.72713,0.72822,0.72934],"lo":[0.72823,0.72716,0.72606,0.72496,0.72386,0.72276,0.72166,0.72056,0.7197,0.71887,0.71804,0.71731,0.71664,0.71598,0.71531,0.71464,0.71397,0.71331,0.71264,0.71197,0.71149,0.71132,0.71115,0.71098,0.71081,0.71064,0.71023,0.70975,0.70927,0.70879,0.70831,0.70805,0.70796,0.70788,0.7078,0.70772,0.70809,0.70876,0.70925,0.70911,0.70898,0.70944,0.70993,0.71042,0.71091,0.71119,0.71132,0.71145,0.71158,0.71192,0.71268,0.71344,0.7142,0.71494,0.71567,0.7164,0.71713,0.71787,0.7186,0.71883,0.71894],"dx":[-0.3613,-0.2743,-0.2335,-0.1942,-0.1201,-0.0511,0.0134,0.074,0.103,0.1312,0.1853,0.2366,0.2853,0.3319,0.3543,0.3763],"dy":[0.73521,0.72671,0.72391,0.72195,0.71757,0.71604,0.71427,0.71425,0.71416,0.71385,0.71591,0.71663,0.71881,0.7217,0.72302,0.72423],"atm":0.71464,"n3":[0.73593,0.71538,0.71892],"n12":[0.73839,0.73044,0.7241,0.7214,0.71808,0.71627,0.71499,0.71427,0.71561,0.71732,0.72012,0.72395],"n48":[0.74007,0.7376,0.7357,0.73467,0.73354,0.73186,0.72962,0.7271,0.72602,0.72469,0.72374,0.72302,0.72216,0.72197,0.72133,0.72007,0.71827,0.71806,0.71823,0.71777,0.71665,0.71635,0.71645,0.71591,0.71478,0.71489,0.71528,0.71504,0.71441,0.7144,0.71423,0.71407,0.71473,0.71569,0.71601,0.71629,0.71695,0.71697,0.71712,0.71823,0.71876,0.71945,0.7208,0.72155,0.72238,0.72333,0.72428,0.72591],"dom":[0.70526,0.74539]},{"x0":-0.2857,"x1":0.3648,"my":[0.72005,0.71943,0.71881,0.71819,0.7176,0.71707,0.71654,0.71602,0.71552,0.71504,0.71455,0.71407,0.71359,0.71311,0.71262,0.71228,0.71198,0.71168,0.71138,0.71108,0.71078,0.71045,0.71007,0.7097,0.70932,0.70895,0.70857,0.70833,0.70824,0.70814,0.70805,0.70796,0.70787,0.70788,0.70791,0.70798,0.70824,0.7085,0.70866,0.70875,0.70885,0.70894,0.70903,0.70943,0.71002,0.7106,0.71119,0.71177,0.71211,0.71241,0.71271,0.71301,0.71328,0.7135,0.71372,0.71394,0.7142,0.71482,0.71544,0.71606,0.71668],"hi":[0.72553,0.72515,0.72478,0.7244,0.72397,0.72338,0.72279,0.7222,0.72159,0.72097,0.72034,0.71972,0.7191,0.71848,0.71786,0.71758,0.71738,0.71717,0.71697,0.71676,0.71656,0.71614,0.71546,0.71478,0.7141,0.71342,0.71274,0.7124,0.71243,0.71247,0.7125,0.71254,0.71257,0.71237,0.71212,0.71196,0.71225,0.71254,0.71272,0.71282,0.71291,0.71301,0.71311,0.71367,0.71454,0.7154,0.71627,0.71714,0.7175,0.7178,0.71809,0.71839,0.71861,0.71871,0.7188,0.71889,0.71905,0.71966,0.72027,0.72089,0.7215],"lo":[0.71465,0.71394,0.71323,0.71252,0.71176,0.71084,0.70992,0.70899,0.7085,0.70823,0.70796,0.70769,0.70742,0.70716,0.70689,0.70655,0.7062,0.70585,0.70549,0.70514,0.70479,0.70454,0.70441,0.70428,0.70414,0.70401,0.70388,0.70373,0.70356,0.70338,0.70321,0.70303,0.70286,0.70308,0.70338,0.70368,0.70399,0.70431,0.70451,0.70462,0.70473,0.70484,0.70495,0.70518,0.70547,0.70577,0.70606,0.70636,0.70665,0.70694,0.70723,0.70752,0.70785,0.70824,0.70863,0.70903,0.70945,0.71003,0.71062,0.7112,0.71179],"dx":[-0.2857,-0.2449,-0.2057,-0.1316,-0.0626,0.0019,0.0626,0.0915,0.1197,0.1738,0.2251,0.2739,0.3204,0.3648],"dy":[0.72005,0.71772,0.71582,0.71252,0.71061,0.70837,0.70786,0.70793,0.7086,0.70907,0.71184,0.71319,0.71414,0.71668],"atm":0.70844,"n3":[0.72962,0.70928,0.7131],"n12":[0.73328,0.72294,0.71709,0.71483,0.71229,0.71008,0.70857,0.70836,0.70957,0.7123,0.71403,0.71729],"n48":[0.73369,0.73285,0.73116,0.72925,0.72694,0.72427,0.72124,0.71967,0.71875,0.71766,0.71704,0.71611,0.71585,0.7155,0.7147,0.71346,0.71267,0.71272,0.71234,0.7115,0.71069,0.71061,0.71011,0.70916,0.7086,0.70887,0.7087,0.70811,0.70804,0.70805,0.70847,0.70885,0.70935,0.70941,0.70933,0.7105,0.71138,0.71193,0.71271,0.71316,0.71335,0.71395,0.71421,0.71458,0.71575,0.71649,0.71779,0.71929],"dom":[0.7007,0.73585]}],[{"x0":-0.344,"x1":0.3936,"my":[0.85026,0.8448,0.83933,0.83387,0.82841,0.82295,0.81748,0.81202,0.80737,0.80278,0.7982,0.79367,0.7892,0.78472,0.78063,0.7771,0.77356,0.77003,0.76649,0.76295,0.75935,0.75563,0.75191,0.74938,0.74789,0.7464,0.74403,0.7414,0.73897,0.73811,0.73725,0.73602,0.73443,0.73287,0.73237,0.73187,0.73108,0.73011,0.72942,0.72968,0.72995,0.73134,0.73281,0.73362,0.73417,0.73515,0.7365,0.73789,0.73935,0.74168,0.7455,0.74882,0.75126,0.75394,0.75697,0.76073,0.76527,0.76952,0.7736,0.77615,0.7783],"hi":[0.8552,0.84953,0.84385,0.83818,0.8325,0.82683,0.82115,0.81548,0.8107,0.806,0.8013,0.79709,0.79322,0.78936,0.78559,0.78195,0.77832,0.77468,0.77104,0.76741,0.76362,0.75959,0.75556,0.75285,0.75123,0.7496,0.74749,0.74524,0.74313,0.74223,0.74133,0.74036,0.73934,0.73832,0.73727,0.73622,0.73536,0.73462,0.73409,0.73417,0.73425,0.73579,0.73737,0.73914,0.741,0.74209,0.74242,0.74335,0.74498,0.74747,0.75154,0.75461,0.75559,0.75817,0.76349,0.76746,0.77008,0.77387,0.77835,0.78105,0.78318],"lo":[0.84541,0.84013,0.83485,0.82958,0.8243,0.81902,0.81374,0.80847,0.80398,0.79956,0.79514,0.79019,0.78487,0.77954,0.77505,0.77172,0.76839,0.76506,0.76173,0.7584,0.75487,0.75104,0.7472,0.74387,0.74095,0.73803,0.73685,0.73616,0.73544,0.73456,0.73368,0.73193,0.7293,0.72684,0.7273,0.72775,0.72738,0.72651,0.72583,0.72571,0.72559,0.7269,0.72824,0.72814,0.72743,0.72827,0.73062,0.73242,0.73358,0.73559,0.73915,0.74282,0.74673,0.7495,0.75033,0.7539,0.76023,0.76513,0.76917,0.77131,0.77284],"dx":[-0.344,-0.257,-0.2162,-0.177,-0.1029,-0.0678,-0.0339,-0.0011,0.0307,0.0614,0.0913,0.1203,0.1484,0.1758,0.2025,0.2285,0.2538,0.2785,0.3026,0.3261,0.3491,0.3716,0.3936],"dy":[0.85026,0.8116,0.79638,0.7821,0.76079,0.75017,0.74606,0.73906,0.73684,0.73288,0.73166,0.72936,0.72996,0.73322,0.73442,0.73727,0.74026,0.74794,0.75272,0.75851,0.76699,0.77446,0.7783],"atm":0.73898,"n3":[0.8029,0.73967,0.74103],"n12":[0.86412,0.83563,0.80217,0.78315,0.76196,0.74493,0.73708,0.73194,0.73264,0.73792,0.75239,0.77196],"n48":[0.88077,0.87152,0.86062,0.85055,0.84696,0.84151,0.83386,0.82413,0.81331,0.80724,0.8008,0.79458,0.78904,0.78302,0.78229,0.77917,0.77312,0.76433,0.75878,0.75336,0.75031,0.74786,0.74533,0.74162,0.73958,0.73808,0.73667,0.73407,0.73359,0.7322,0.73149,0.73019,0.73063,0.73202,0.73353,0.73485,0.73537,0.73742,0.73959,0.74216,0.74717,0.75117,0.75453,0.75873,0.76491,0.77044,0.77526,0.77856],"dom":[0.71473,0.89163]},{"x0":-0.352,"x1":0.3856,"my":[0.75751,0.75555,0.75358,0.75162,0.74966,0.7477,0.74573,0.74377,0.74211,0.74048,0.73884,0.73721,0.73557,0.73394,0.73257,0.73159,0.73061,0.72963,0.72866,0.72768,0.72678,0.72602,0.72526,0.7245,0.72374,0.72298,0.72253,0.72218,0.72183,0.72149,0.72114,0.72081,0.72049,0.72017,0.71986,0.71954,0.71963,0.72,0.72039,0.72089,0.72138,0.72125,0.72108,0.72092,0.72075,0.72105,0.72176,0.72248,0.72319,0.72388,0.72455,0.72522,0.72589,0.72679,0.72804,0.72928,0.73053,0.73166,0.73271,0.73412,0.73562],"hi":[0.76264,0.76063,0.75862,0.75661,0.7546,0.75259,0.75058,0.74857,0.747,0.74547,0.74393,0.74237,0.74078,0.7392,0.73792,0.73708,0.73624,0.73539,0.73455,0.73371,0.73285,0.73196,0.73107,0.73017,0.72928,0.72839,0.72791,0.72754,0.72717,0.7268,0.72644,0.72602,0.72557,0.72511,0.72466,0.72421,0.72405,0.72408,0.72423,0.72471,0.72518,0.7252,0.72516,0.72512,0.72509,0.7256,0.72664,0.72769,0.72874,0.72956,0.72997,0.73038,0.73079,0.73154,0.73285,0.73416,0.73547,0.73665,0.73775,0.73923,0.74082],"lo":[0.75222,0.75044,0.74866,0.74688,0.7451,0.74332,0.74154,0.73976,0.73761,0.73543,0.73326,0.73155,0.73016,0.72878,0.72752,0.72644,0.72536,0.72428,0.7232,0.72212,0.72117,0.7204,0.71964,0.71887,0.71811,0.71735,0.71695,0.71666,0.71636,0.71607,0.71578,0.71563,0.71563,0.71563,0.71563,0.71563,0.71565,0.71568,0.71583,0.71629,0.71674,0.71672,0.71664,0.71656,0.71648,0.71666,0.7171,0.71754,0.71798,0.71857,0.71944,0.7203,0.72117,0.72216,0.72333,0.72451,0.72569,0.72673,0.72768,0.72899,0.73041],"dx":[-0.352,-0.265,-0.2241,-0.1849,-0.1108,-0.0418,0.0227,0.0834,0.1123,0.1405,0.1946,0.2459,0.2947,0.3412,0.3637,0.3856],"dy":[0.75751,0.74362,0.73818,0.73297,0.72707,0.7228,0.72097,0.71941,0.72028,0.72141,0.72067,0.72364,0.7263,0.73101,0.73294,0.73562],"atm":0.72161,"n3":[0.74119,0.72254,0.72548],"n12":[0.7617,0.75133,0.73943,0.73313,0.72795,0.72388,0.72195,0.72046,0.72187,0.72363,0.72786,0.73367],"n48":[0.76832,0.7643,0.75945,0.75714,0.75582,0.75356,0.75042,0.74641,0.74303,0.74118,0.73853,0.73669,0.73422,0.73333,0.73316,0.73195,0.72973,0.72748,0.72767,0.72707,0.72547,0.72325,0.72383,0.72382,0.72273,0.7214,0.72197,0.72174,0.72043,0.71994,0.72037,0.72112,0.72163,0.72237,0.72222,0.72119,0.72236,0.72357,0.72382,0.7251,0.72625,0.72653,0.72841,0.73026,0.73122,0.73263,0.73448,0.73678],"dom":[0.71194,0.77201]},{"x0":-0.3613,"x1":0.3763,"my":[0.73521,0.73401,0.73281,0.73161,0.73041,0.7292,0.728,0.7268,0.72593,0.72509,0.72424,0.72354,0.72293,0.72231,0.72165,0.72093,0.7202,0.71947,0.71875,0.71802,0.71747,0.71719,0.71692,0.71665,0.71638,0.7161,0.71578,0.71544,0.71511,0.71477,0.71443,0.71427,0.71426,0.71426,0.71426,0.71425,0.71423,0.71419,0.71413,0.71399,0.71386,0.71429,0.71476,0.71523,0.71569,0.716,0.71618,0.71635,0.71652,0.71683,0.71738,0.71793,0.71848,0.71912,0.71988,0.72064,0.7214,0.72214,0.72287,0.72355,0.72423],"hi":[0.74293,0.74162,0.74028,0.73893,0.73759,0.73624,0.7349,0.73356,0.73249,0.73146,0.73043,0.72986,0.72964,0.72941,0.72896,0.72812,0.72729,0.72646,0.72563,0.7248,0.72417,0.72389,0.7236,0.72331,0.72303,0.72274,0.72224,0.72167,0.72111,0.72054,0.71997,0.71965,0.71952,0.71939,0.71925,0.71912,0.71905,0.71901,0.71895,0.7188,0.71865,0.71911,0.7196,0.72009,0.72058,0.72087,0.72103,0.72118,0.72133,0.72155,0.72193,0.7223,0.72268,0.72322,0.724,0.72478,0.72555,0.72634,0.72713,0.72822,0.72934],"lo":[0.72823,0.72716,0.72606,0.72496,0.72386,0.72276,0.72166,0.72056,0.7197,0.71887,0.71804,0.71731,0.71664,0.71598,0.71531,0.71464,0.71397,0.71331,0.71264,0.71197,0.71149,0.71132,0.71115,0.71098,0.71081,0.71064,0.71023,0.70975,0.70927,0.70879,0.70831,0.70805,0.70796,0.70788,0.7078,0.70772,0.70809,0.70876,0.70925,0.70911,0.70898,0.70944,0.70993,0.71042,0.71091,0.71119,0.71132,0.71145,0.71158,0.71192,0.71268,0.71344,0.7142,0.71494,0.71567,0.7164,0.71713,0.71787,0.7186,0.71883,0.71894],"dx":[-0.3613,-0.2743,-0.2335,-0.1942,-0.1201,-0.0511,0.0134,0.074,0.103,0.1312,0.1853,0.2366,0.2853,0.3319,0.3543,0.3763],"dy":[0.73521,0.72671,0.72391,0.72195,0.71757,0.71604,0.71427,0.71425,0.71416,0.71385,0.71591,0.71663,0.71881,0.7217,0.72302,0.72423],"atm":0.71464,"n3":[0.72557,0.71541,0.71856],"n12":[0.73657,0.73042,0.72427,0.72133,0.71808,0.71627,0.715,0.71428,0.71559,0.71729,0.72029,0.72392],"n48":[0.74007,0.73759,0.73529,0.73464,0.73354,0.73186,0.72962,0.7271,0.72597,0.72473,0.72374,0.72302,0.7221,0.72197,0.72133,0.72007,0.71828,0.71806,0.71823,0.71778,0.71658,0.71635,0.71645,0.71591,0.71478,0.71489,0.71529,0.71504,0.71441,0.7144,0.71423,0.71407,0.71473,0.71569,0.71601,0.71622,0.71695,0.71697,0.71712,0.71823,0.71876,0.71945,0.72079,0.72157,0.72238,0.72331,0.7243,0.7259],"dom":[0.70526,0.74539]},{"x0":-0.2857,"x1":0.3648,"my":[0.72005,0.71943,0.71881,0.71819,0.7176,0.71707,0.71654,0.71602,0.71552,0.71504,0.71455,0.71407,0.71359,0.71311,0.71262,0.71228,0.71198,0.71168,0.71138,0.71108,0.71078,0.71045,0.71007,0.7097,0.70932,0.70895,0.70857,0.70833,0.70824,0.70814,0.70805,0.70796,0.70787,0.70788,0.70791,0.70798,0.70824,0.7085,0.70866,0.70875,0.70885,0.70894,0.70903,0.70943,0.71002,0.7106,0.71119,0.71177,0.71211,0.71241,0.71271,0.71301,0.71328,0.7135,0.71372,0.71394,0.7142,0.71482,0.71544,0.71606,0.71668],"hi":[0.72553,0.72515,0.72477,0.7244,0.72397,0.72338,0.72279,0.7222,0.72159,0.72097,0.72034,0.71972,0.7191,0.71848,0.71786,0.71758,0.71738,0.71717,0.71697,0.71676,0.71656,0.71614,0.71546,0.71478,0.7141,0.71342,0.71274,0.7124,0.71243,0.71247,0.7125,0.71254,0.71257,0.71237,0.71212,0.71196,0.71225,0.71254,0.71272,0.71282,0.71291,0.71301,0.71311,0.71367,0.71454,0.7154,0.71627,0.71714,0.7175,0.7178,0.71809,0.71839,0.71861,0.71871,0.7188,0.71889,0.71905,0.71966,0.72027,0.72089,0.7215],"lo":[0.71465,0.71394,0.71323,0.71252,0.71176,0.71084,0.70992,0.70899,0.7085,0.70823,0.70796,0.70769,0.70742,0.70716,0.70689,0.70655,0.7062,0.70585,0.70549,0.70514,0.70479,0.70454,0.70441,0.70428,0.70414,0.70401,0.70388,0.70373,0.70356,0.70338,0.70321,0.70303,0.70286,0.70308,0.70338,0.70368,0.70399,0.70431,0.70451,0.70462,0.70473,0.70484,0.70495,0.70518,0.70547,0.70577,0.70606,0.70636,0.70665,0.70694,0.70723,0.70752,0.70785,0.70824,0.70863,0.70903,0.70945,0.71003,0.71062,0.7112,0.71179],"dx":[-0.2857,-0.2449,-0.2057,-0.1316,-0.0626,0.0019,0.0626,0.0915,0.1197,0.1738,0.2251,0.2739,0.3204,0.3648],"dy":[0.72005,0.71772,0.71582,0.71252,0.71061,0.70837,0.70786,0.70793,0.7086,0.70907,0.71184,0.71319,0.71414,0.71668],"atm":0.70844,"n3":[0.71907,0.70931,0.71273],"n12":[0.73138,0.72268,0.71735,0.71484,0.71232,0.71011,0.70857,0.70835,0.7095,0.71226,0.71411,0.71725],"n48":[0.73369,0.73258,0.73111,0.72923,0.72694,0.72427,0.72124,0.71962,0.71875,0.71769,0.71704,0.71609,0.71585,0.71549,0.7147,0.71346,0.71267,0.71272,0.71233,0.7115,0.71069,0.71061,0.71011,0.70916,0.7086,0.70887,0.7087,0.70812,0.70804,0.70805,0.70847,0.70885,0.70935,0.70941,0.70929,0.71049,0.71138,0.71193,0.71271,0.71316,0.71334,0.71395,0.71422,0.71457,0.71572,0.71649,0.71777,0.71927],"dom":[0.7007,0.73585]}]],"b":[[{"x0":-0.344,"x1":0.3936,"my":[0.7171,0.7166,0.71611,0.71561,0.71511,0.71461,0.71412,0.71362,0.71374,0.7139,0.71407,0.71427,0.71449,0.71471,0.71527,0.71631,0.71735,0.71839,0.71943,0.72046,0.72142,0.72226,0.7231,0.72508,0.72807,0.73107,0.73322,0.73514,0.73725,0.74095,0.74465,0.74801,0.75106,0.75414,0.75834,0.76254,0.7665,0.77028,0.77439,0.77958,0.78477,0.79127,0.79785,0.8038,0.8095,0.81575,0.82246,0.82927,0.83624,0.84426,0.85406,0.86336,0.87177,0.88052,0.88979,0.90002,0.91124,0.92226,0.93316,0.94236,0.95111],"hi":[0.72124,0.72058,0.71993,0.71927,0.71861,0.71795,0.7173,0.71664,0.71665,0.71671,0.71677,0.71728,0.71809,0.7189,0.71979,0.72076,0.72174,0.72272,0.72369,0.72467,0.72549,0.72607,0.72665,0.72849,0.73136,0.73423,0.73664,0.73892,0.74134,0.745,0.74866,0.75236,0.75612,0.75987,0.76352,0.76717,0.77108,0.77514,0.77945,0.78448,0.78952,0.79611,0.80274,0.80971,0.81682,0.82329,0.82912,0.83553,0.84259,0.85071,0.86077,0.86977,0.87655,0.8853,0.89741,0.90797,0.91697,0.92741,0.93869,0.94807,0.95684],"lo":[0.71304,0.71268,0.71232,0.71196,0.7116,0.71124,0.71088,0.71052,0.71074,0.71102,0.7113,0.71109,0.71054,0.71,0.71018,0.71139,0.71259,0.7138,0.71501,0.71621,0.71722,0.71794,0.71866,0.71983,0.72139,0.72294,0.72622,0.72997,0.73371,0.73734,0.74097,0.74382,0.74588,0.74811,0.75325,0.75839,0.76275,0.76661,0.77071,0.77549,0.78027,0.78654,0.79285,0.7977,0.80193,0.80806,0.81604,0.8233,0.82975,0.83725,0.84664,0.85626,0.86635,0.87522,0.88199,0.89203,0.90533,0.91699,0.92767,0.93631,0.94428],"dx":[-0.344,-0.257,-0.2162,-0.177,-0.1029,-0.0678,-0.0339,-0.0011,0.0307,0.0614,0.0913,0.1203,0.1484,0.1758,0.2025,0.2285,0.2538,0.2785,0.3026,0.3261,0.3491,0.3716,0.3936],"dy":[0.7171,0.71358,0.71414,0.71484,0.7211,0.72349,0.73174,0.73685,0.74643,0.75404,0.76426,0.77319,0.78505,0.79971,0.8121,0.82628,0.84061,0.86031,0.87679,0.89451,0.91551,0.93545,0.95111],"atm":0.73718,"n3":[0.72248,0.74836,0.83251],"n12":[0.7232,0.72048,0.71512,0.71959,0.72361,0.73378,0.74758,0.76788,0.79475,0.82868,0.8745,0.92997],"n48":[0.72627,0.72432,0.72097,0.71818,0.72078,0.72191,0.72105,0.71836,0.71467,0.7153,0.71503,0.7153,0.71606,0.71618,0.72155,0.72458,0.72483,0.72249,0.72319,0.72399,0.72701,0.73092,0.73428,0.73673,0.74085,0.74557,0.75039,0.75403,0.75998,0.76494,0.77071,0.77594,0.783,0.79122,0.79972,0.80795,0.81554,0.82493,0.83455,0.84469,0.85787,0.86993,0.88144,0.89419,0.90906,0.92398,0.93829,0.95016],"dom":[0.69272,0.97412]},{"x0":-0.352,"x1":0.3856,"my":[0.63315,0.63524,0.63733,0.63942,0.6415,0.64359,0.64568,0.64777,0.65016,0.65258,0.655,0.65746,0.65993,0.66241,0.66516,0.66831,0.67146,0.67461,0.67776,0.68091,0.68418,0.68767,0.69116,0.69464,0.69813,0.70162,0.70553,0.70957,0.71361,0.71765,0.72169,0.72583,0.73007,0.7343,0.73853,0.74277,0.74749,0.75256,0.75768,0.76297,0.76827,0.77304,0.77778,0.78252,0.78726,0.79261,0.7985,0.80439,0.81027,0.81622,0.82228,0.82834,0.83439,0.8408,0.84774,0.85468,0.86162,0.86855,0.87547,0.88289,0.89043],"hi":[0.63736,0.63943,0.64151,0.64358,0.64566,0.64773,0.64981,0.65188,0.65437,0.65689,0.65942,0.66197,0.66454,0.66711,0.66998,0.67329,0.6766,0.67991,0.68322,0.68653,0.68988,0.69327,0.69667,0.70007,0.70347,0.70686,0.71075,0.71476,0.71878,0.7228,0.72681,0.73091,0.73508,0.73926,0.74343,0.7476,0.75213,0.75688,0.76173,0.76691,0.77208,0.77702,0.78193,0.78685,0.79176,0.79739,0.8037,0.81002,0.81634,0.82247,0.82825,0.83403,0.83982,0.84609,0.85321,0.86032,0.86743,0.87439,0.88125,0.88874,0.89643],"lo":[0.6288,0.63102,0.63324,0.63546,0.63767,0.63989,0.64211,0.64433,0.64627,0.64818,0.6501,0.65247,0.65516,0.65785,0.66068,0.66372,0.66675,0.66979,0.67282,0.67586,0.67906,0.68251,0.68596,0.68941,0.69286,0.69631,0.70021,0.70424,0.70826,0.71229,0.71631,0.72061,0.72518,0.72975,0.73433,0.7389,0.74354,0.74823,0.75303,0.75812,0.76322,0.76807,0.77288,0.77769,0.7825,0.78771,0.79329,0.79887,0.80445,0.81026,0.81649,0.82271,0.82894,0.83541,0.8423,0.84919,0.85608,0.86279,0.8694,0.87662,0.88404],"dx":[-0.352,-0.265,-0.2241,-0.1849,-0.1108,-0.0418,0.0227,0.0833,0.1123,0.1405,0.1946,0.2459,0.2947,0.3412,0.3636,0.3856],"dy":[0.63315,0.64793,0.65598,0.66388,0.68286,0.70243,0.72363,0.7445,0.75645,0.7686,0.78945,0.81402,0.83806,0.86432,0.87693,0.89043],"atm":0.71617,"n3":[0.63556,0.72702,0.81777],"n12":[0.63163,0.64392,0.65552,0.66976,0.68761,0.70905,0.72824,0.75212,0.77886,0.80859,0.84175,0.87936],"n48":[0.6302,0.63186,0.63284,0.63506,0.6398,0.64306,0.6455,0.64721,0.64955,0.65307,0.65622,0.6597,0.66294,0.66741,0.67269,0.67709,0.68057,0.68409,0.6899,0.69501,0.6992,0.70355,0.70945,0.71529,0.72015,0.72487,0.73154,0.73743,0.74245,0.74818,0.75505,0.76225,0.76927,0.77668,0.78312,0.78854,0.79691,0.80517,0.81243,0.82096,0.8294,0.83705,0.84643,0.85603,0.86492,0.87421,0.88398,0.89455],"dom":[0.61007,0.91516]},{"x0":-0.3613,"x1":0.3763,"my":[0.60873,0.61134,0.61395,0.61656,0.61917,0.62178,0.62439,0.627,0.62997,0.63298,0.63598,0.63915,0.64242,0.64569,0.64897,0.65226,0.65555,0.65884,0.66213,0.66542,0.66892,0.67278,0.67663,0.68049,0.68435,0.6882,0.69214,0.69611,0.70007,0.70404,0.70801,0.71223,0.71669,0.72115,0.72561,0.73007,0.73459,0.73915,0.74371,0.74825,0.7528,0.75806,0.76337,0.76869,0.774,0.77925,0.78444,0.78963,0.79482,0.80023,0.80604,0.81185,0.81766,0.82364,0.82987,0.83611,0.84234,0.84866,0.85503,0.86143,0.86783],"hi":[0.61495,0.61741,0.61994,0.62247,0.62499,0.62752,0.63005,0.63257,0.6354,0.63827,0.64113,0.64445,0.64812,0.65179,0.6553,0.65854,0.66178,0.66502,0.66825,0.67149,0.67497,0.67885,0.68274,0.68662,0.6905,0.69438,0.69822,0.70204,0.70585,0.70967,0.71349,0.7176,0.72193,0.72627,0.73061,0.73494,0.73943,0.74402,0.74861,0.75321,0.7578,0.76313,0.7685,0.77387,0.77924,0.78448,0.78962,0.79476,0.7999,0.80523,0.81095,0.81667,0.82239,0.82833,0.83456,0.8408,0.84703,0.85348,0.86006,0.86698,0.87379],"lo":[0.60311,0.60571,0.60837,0.61103,0.61369,0.61635,0.61901,0.62167,0.6246,0.62757,0.63054,0.63365,0.63687,0.64009,0.64335,0.64666,0.64997,0.65329,0.6566,0.65992,0.66346,0.66738,0.6713,0.67521,0.67913,0.68305,0.6869,0.69073,0.69456,0.69839,0.70222,0.70632,0.71063,0.71495,0.71927,0.72358,0.72845,0.73369,0.73877,0.74332,0.74786,0.75313,0.75844,0.76375,0.76905,0.77422,0.77927,0.78432,0.78937,0.79476,0.80084,0.80691,0.81299,0.81908,0.8252,0.83132,0.83744,0.84377,0.85023,0.85608,0.86165],"dx":[-0.3613,-0.2743,-0.2335,-0.1942,-0.1201,-0.0511,0.0134,0.074,0.103,0.1312,0.1853,0.2366,0.2853,0.3319,0.3543,0.3763],"dy":[0.60873,0.6272,0.63717,0.64763,0.66746,0.6891,0.70991,0.7319,0.74266,0.75308,0.77646,0.79812,0.82113,0.84476,0.85637,0.86783],"atm":0.70559,"n3":[0.61186,0.71547,0.80795],"n12":[0.60586,0.62285,0.6388,0.65538,0.67479,0.69742,0.71748,0.74178,0.76762,0.79747,0.82872,0.86286],"n48":[0.60399,0.60675,0.60858,0.61383,0.61789,0.62139,0.62445,0.62732,0.63141,0.63546,0.63966,0.64417,0.64808,0.65372,0.65849,0.66272,0.66653,0.67176,0.67747,0.68263,0.68738,0.69265,0.69851,0.70381,0.70861,0.71466,0.72098,0.72694,0.73242,0.73863,0.74476,0.7509,0.75803,0.76557,0.77241,0.77922,0.78687,0.79371,0.80076,0.80901,0.81663,0.82452,0.83333,0.84156,0.84989,0.85867,0.86713,0.87694],"dom":[0.58394,0.89611]},{"x0":-0.2857,"x1":0.3648,"my":[0.61493,0.61763,0.62033,0.62303,0.62576,0.62861,0.63145,0.63429,0.63722,0.6402,0.64318,0.64616,0.64914,0.65212,0.6551,0.65832,0.6616,0.66488,0.66816,0.67144,0.67472,0.67804,0.68139,0.68474,0.6881,0.69145,0.6948,0.69835,0.70211,0.70587,0.70963,0.71339,0.71716,0.72113,0.72514,0.72921,0.73351,0.73781,0.74209,0.74635,0.75061,0.75487,0.75913,0.76381,0.76875,0.77369,0.77863,0.78356,0.78839,0.7932,0.79801,0.80282,0.80766,0.81255,0.81744,0.82233,0.82729,0.83279,0.8383,0.84381,0.84932],"hi":[0.61953,0.62244,0.62535,0.62826,0.63115,0.63398,0.63681,0.63964,0.64252,0.64541,0.6483,0.65119,0.65408,0.65698,0.65987,0.66318,0.66657,0.66997,0.67336,0.67676,0.68015,0.6834,0.68646,0.68953,0.6926,0.69567,0.69873,0.70218,0.70607,0.70995,0.71384,0.71772,0.72161,0.72538,0.72912,0.73297,0.73735,0.74174,0.74607,0.75036,0.75466,0.75895,0.76325,0.76814,0.77343,0.77871,0.784,0.78929,0.79417,0.79899,0.80381,0.80864,0.81346,0.81829,0.82313,0.82796,0.83287,0.83834,0.8438,0.84926,0.85473],"lo":[0.61057,0.61316,0.61574,0.61833,0.62089,0.62339,0.62588,0.62837,0.63129,0.63443,0.63757,0.64072,0.64386,0.647,0.65014,0.65334,0.65654,0.65975,0.66295,0.66616,0.66937,0.67272,0.67625,0.67977,0.6833,0.68683,0.69036,0.69394,0.69757,0.70121,0.70484,0.70848,0.71212,0.71626,0.72049,0.72475,0.72911,0.73348,0.73778,0.74204,0.74631,0.75057,0.75483,0.75931,0.76395,0.76858,0.77321,0.77784,0.78258,0.78733,0.79208,0.79683,0.80171,0.80681,0.81191,0.81701,0.82214,0.82752,0.83289,0.83827,0.84364],"dx":[-0.2857,-0.2449,-0.2057,-0.1316,-0.0626,0.0019,0.0626,0.0915,0.1197,0.1738,0.2251,0.2739,0.3204,0.3648],"dy":[0.61493,0.62509,0.63537,0.65574,0.67662,0.69657,0.71763,0.72831,0.7395,0.76076,0.78413,0.80578,0.82676,0.84932],"atm":0.69598,"n3":[0.60485,0.70491,0.79919],"n12":[0.59701,0.6133,0.62979,0.64691,0.66597,0.687,0.70765,0.73201,0.75691,0.78798,0.81791,0.85061],"n48":[0.59563,0.59876,0.60289,0.60618,0.60915,0.6118,0.61419,0.61779,0.62195,0.6262,0.63053,0.63469,0.63973,0.64461,0.64915,0.65337,0.65799,0.66347,0.66856,0.67331,0.6785,0.68376,0.68894,0.69376,0.69902,0.70515,0.71093,0.71638,0.72233,0.72854,0.73512,0.74175,0.74863,0.75501,0.76114,0.76928,0.77688,0.78418,0.79188,0.79923,0.80648,0.81416,0.82162,0.82934,0.83808,0.8461,0.85521,0.86466],"dom":[0.5768,0.88349]}],[{"x0":-0.344,"x1":0.3936,"my":[0.7171,0.7166,0.71611,0.71561,0.71511,0.71461,0.71412,0.71362,0.71374,0.7139,0.71407,0.71427,0.71449,0.71471,0.71527,0.71631,0.71735,0.71839,0.71943,0.72046,0.72142,0.72226,0.7231,0.72508,0.72807,0.73107,0.73322,0.73514,0.73725,0.74095,0.74465,0.74801,0.75106,0.75414,0.75834,0.76254,0.7665,0.77028,0.77439,0.77958,0.78477,0.79127,0.79785,0.8038,0.8095,0.81575,0.82246,0.82927,0.83624,0.84426,0.85406,0.86336,0.87177,0.88052,0.88979,0.90002,0.91124,0.92226,0.93316,0.94236,0.95111],"hi":[0.72124,0.72058,0.71993,0.71927,0.71861,0.71795,0.7173,0.71664,0.71665,0.71671,0.71677,0.71728,0.71809,0.7189,0.71979,0.72076,0.72174,0.72272,0.72369,0.72467,0.72549,0.72607,0.72665,0.72849,0.73136,0.73423,0.73664,0.73892,0.74134,0.745,0.74866,0.75236,0.75612,0.75987,0.76352,0.76717,0.77108,0.77514,0.77945,0.78448,0.78952,0.79611,0.80274,0.80971,0.81682,0.82329,0.82912,0.83553,0.84259,0.85071,0.86077,0.86977,0.87655,0.8853,0.89741,0.90797,0.91697,0.92741,0.93869,0.94807,0.95684],"lo":[0.71304,0.71268,0.71232,0.71196,0.7116,0.71124,0.71088,0.71052,0.71074,0.71102,0.7113,0.71109,0.71054,0.71,0.71018,0.71139,0.71259,0.7138,0.71501,0.71621,0.71722,0.71794,0.71866,0.71984,0.72139,0.72295,0.72622,0.72997,0.73371,0.73734,0.74097,0.74382,0.74588,0.74811,0.75325,0.75839,0.76275,0.76661,0.77071,0.77549,0.78027,0.78654,0.79285,0.7977,0.80193,0.80806,0.81604,0.8233,0.82975,0.83725,0.84664,0.85626,0.86635,0.87522,0.88199,0.89203,0.90533,0.91699,0.92767,0.93631,0.94428],"dx":[-0.344,-0.257,-0.2162,-0.177,-0.1029,-0.0678,-0.0339,-0.0011,0.0307,0.0614,0.0913,0.1203,0.1484,0.1758,0.2025,0.2285,0.2538,0.2785,0.3026,0.3261,0.3491,0.3716,0.3936],"dy":[0.7171,0.71358,0.71414,0.71484,0.7211,0.72349,0.73174,0.73685,0.74643,0.75404,0.76426,0.77319,0.78505,0.79971,0.8121,0.82628,0.84061,0.86031,0.87679,0.89451,0.91551,0.93545,0.95111],"atm":0.73718,"n3":[0.71868,0.74814,0.8243],"n12":[0.72205,0.72046,0.71515,0.71984,0.72363,0.73377,0.74775,0.76745,0.79469,0.82633,0.87399,0.92923],"n48":[0.72627,0.72432,0.72096,0.71832,0.72085,0.72191,0.72105,0.71836,0.71467,0.71536,0.71506,0.71529,0.71606,0.71638,0.72154,0.72459,0.72484,0.72251,0.72321,0.72399,0.72696,0.73102,0.73429,0.73673,0.74086,0.74558,0.75039,0.75408,0.75996,0.76492,0.77071,0.77591,0.78301,0.79122,0.79966,0.808,0.81485,0.82487,0.83446,0.84469,0.8578,0.86994,0.88144,0.89416,0.90979,0.92401,0.938,0.95037],"dom":[0.69272,0.97412]},{"x0":-0.352,"x1":0.3856,"my":[0.63315,0.63524,0.63733,0.63942,0.6415,0.64359,0.64568,0.64777,0.65016,0.65258,0.655,0.65746,0.65993,0.66241,0.66516,0.66831,0.67146,0.67461,0.67776,0.68091,0.68418,0.68767,0.69116,0.69464,0.69813,0.70162,0.70553,0.70957,0.7136,0.71764,0.72168,0.72582,0.73006,0.73429,0.73853,0.74277,0.74749,0.75256,0.75768,0.76297,0.76827,0.77304,0.77778,0.78252,0.78726,0.79261,0.7985,0.80439,0.81027,0.81622,0.82228,0.82834,0.83439,0.8408,0.84774,0.85468,0.86162,0.86856,0.87548,0.88289,0.89043],"hi":[0.63736,0.63943,0.64151,0.64358,0.64566,0.64773,0.64981,0.65188,0.65437,0.65689,0.65941,0.66196,0.66453,0.66711,0.66998,0.67329,0.6766,0.67991,0.68321,0.68652,0.68987,0.69327,0.69666,0.70006,0.70346,0.70686,0.71075,0.71476,0.71878,0.7228,0.72681,0.73091,0.73508,0.73926,0.74343,0.7476,0.75213,0.75688,0.76173,0.76691,0.77208,0.77702,0.78193,0.78685,0.79176,0.79739,0.8037,0.81002,0.81634,0.82247,0.82825,0.83403,0.83982,0.84609,0.85321,0.86032,0.86743,0.87439,0.88125,0.88874,0.89643],"lo":[0.6288,0.63102,0.63324,0.63546,0.63767,0.63989,0.64211,0.64433,0.64627,0.64818,0.6501,0.65247,0.65516,0.65785,0.66068,0.66372,0.66675,0.66979,0.67282,0.67586,0.67906,0.68251,0.68596,0.68941,0.69286,0.69631,0.70021,0.70424,0.70826,0.71229,0.71631,0.72061,0.72518,0.72975,0.73433,0.7389,0.74354,0.74823,0.75303,0.75812,0.76322,0.76807,0.77288,0.77769,0.7825,0.78771,0.79329,0.79887,0.80445,0.81026,0.81649,0.82271,0.82894,0.83541,0.8423,0.84919,0.85608,0.86279,0.8694,0.87662,0.88404],"dx":[-0.352,-0.265,-0.2241,-0.1849,-0.1108,-0.0418,0.0227,0.0833,0.1123,0.1405,0.1946,0.2459,0.2947,0.3412,0.3636,0.3856],"dy":[0.63315,0.64793,0.65598,0.66388,0.68286,0.70243,0.72362,0.7445,0.75645,0.7686,0.78945,0.81402,0.83806,0.86432,0.87694,0.89043],"atm":0.71616,"n3":[0.65667,0.72653,0.81151],"n12":[0.63306,0.64407,0.65526,0.67021,0.68763,0.70888,0.72857,0.75158,0.7789,0.80789,0.84212,0.87862],"n48":[0.6302,0.63186,0.63294,0.63599,0.63988,0.64307,0.6455,0.64721,0.64972,0.65307,0.65605,0.6597,0.66284,0.66741,0.6727,0.67708,0.68056,0.6841,0.68989,0.69503,0.6991,0.70359,0.70934,0.71524,0.72015,0.72492,0.73151,0.7375,0.74241,0.74817,0.75497,0.76223,0.76926,0.77665,0.78315,0.78859,0.79686,0.80512,0.8124,0.82093,0.8294,0.83695,0.84647,0.85654,0.86476,0.87407,0.88403,0.89463],"dom":[0.61007,0.91516]},{"x0":-0.3613,"x1":0.3763,"my":[0.60873,0.61134,0.61395,0.61656,0.61917,0.62178,0.62439,0.627,0.62997,0.63298,0.63598,0.63915,0.64242,0.64569,0.64897,0.65226,0.65555,0.65883,0.66212,0.66541,0.66891,0.67277,0.67663,0.68049,0.68434,0.6882,0.69214,0.69611,0.70007,0.70404,0.70801,0.71223,0.71669,0.72115,0.72561,0.73007,0.73459,0.73915,0.74371,0.74825,0.7528,0.75806,0.76337,0.76869,0.774,0.77925,0.78444,0.78963,0.79482,0.80023,0.80604,0.81184,0.81765,0.82363,0.82987,0.8361,0.84234,0.84866,0.85503,0.86142,0.86782],"hi":[0.61495,0.61741,0.61994,0.62247,0.62499,0.62752,0.63005,0.63257,0.6354,0.63827,0.64113,0.64445,0.64812,0.65179,0.6553,0.65854,0.66178,0.66502,0.66825,0.67149,0.67497,0.67885,0.68274,0.68662,0.6905,0.69438,0.69822,0.70204,0.70585,0.70967,0.71349,0.7176,0.72193,0.72627,0.73061,0.73494,0.73943,0.74402,0.74861,0.75321,0.7578,0.76313,0.7685,0.77387,0.77924,0.78448,0.78962,0.79476,0.79989,0.80523,0.81095,0.81667,0.82239,0.82833,0.83456,0.8408,0.84703,0.85348,0.86006,0.86698,0.87379],"lo":[0.6031,0.6057,0.60836,0.61102,0.61368,0.61635,0.61901,0.62167,0.6246,0.62757,0.63054,0.63365,0.63687,0.64009,0.64335,0.64666,0.64997,0.65329,0.6566,0.65992,0.66346,0.66738,0.6713,0.67521,0.67913,0.68305,0.6869,0.69073,0.69456,0.69839,0.70222,0.70632,0.71063,0.71495,0.71927,0.72358,0.72845,0.73369,0.73877,0.74332,0.74786,0.75313,0.75844,0.76375,0.76905,0.77422,0.77927,0.78432,0.78937,0.79476,0.80084,0.80691,0.81299,0.81908,0.8252,0.83132,0.83744,0.84377,0.85023,0.85608,0.86165],"dx":[-0.3613,-0.2743,-0.2335,-0.1942,-0.1201,-0.0511,0.0134,0.074,0.103,0.1312,0.1853,0.2366,0.2853,0.3319,0.3543,0.3763],"dy":[0.60873,0.6272,0.63717,0.64763,0.66745,0.6891,0.70991,0.7319,0.74266,0.75308,0.77646,0.79812,0.82112,0.84476,0.85637,0.86782],"atm":0.70559,"n3":[0.6386,0.7149,0.80263],"n12":[0.60919,0.62289,0.63805,0.65608,0.67481,0.69717,0.71784,0.74139,0.76732,0.79691,0.83024,0.86258],"n48":[0.60399,0.60676,0.60977,0.61395,0.6179,0.62139,0.62445,0.62732,0.63163,0.63537,0.63965,0.64416,0.64856,0.65371,0.6585,0.66272,0.66651,0.6718,0.67748,0.68256,0.6876,0.69267,0.69851,0.70381,0.70862,0.71465,0.72107,0.72691,0.73239,0.73862,0.74474,0.75093,0.75803,0.76552,0.77245,0.77869,0.78683,0.79365,0.80076,0.80897,0.81664,0.82453,0.8333,0.84189,0.84991,0.8585,0.86727,0.87687],"dom":[0.58394,0.89603]},{"x0":-0.2857,"x1":0.3648,"my":[0.61493,0.61763,0.62033,0.62303,0.62576,0.62861,0.63145,0.63429,0.63722,0.6402,0.64318,0.64616,0.64914,0.65212,0.6551,0.65832,0.6616,0.66488,0.66816,0.67144,0.67472,0.67804,0.68139,0.68474,0.6881,0.69145,0.6948,0.69835,0.70211,0.70587,0.70963,0.71339,0.71716,0.72113,0.72514,0.72921,0.73351,0.73781,0.74209,0.74635,0.75061,0.75487,0.75913,0.76381,0.76875,0.77369,0.77863,0.78356,0.78839,0.7932,0.79801,0.80282,0.80766,0.81255,0.81744,0.82233,0.82729,0.83279,0.8383,0.84381,0.84932],"hi":[0.61953,0.62244,0.62535,0.62826,0.63115,0.63398,0.63681,0.63964,0.64252,0.64541,0.6483,0.65119,0.65408,0.65698,0.65987,0.66318,0.66657,0.66997,0.67336,0.67676,0.68015,0.6834,0.68646,0.68953,0.6926,0.69567,0.69873,0.70218,0.70607,0.70995,0.71384,0.71772,0.72161,0.72538,0.72912,0.73297,0.73735,0.74174,0.74607,0.75036,0.75466,0.75895,0.76325,0.76814,0.77343,0.77871,0.784,0.78929,0.79417,0.79899,0.80381,0.80864,0.81346,0.81829,0.82313,0.82796,0.83287,0.83834,0.8438,0.84926,0.85473],"lo":[0.61057,0.61316,0.61574,0.61833,0.62089,0.62339,0.62588,0.62837,0.63129,0.63443,0.63757,0.64072,0.64386,0.647,0.65014,0.65334,0.65654,0.65974,0.66295,0.66615,0.66936,0.67271,0.67624,0.67977,0.6833,0.68683,0.69036,0.69394,0.69757,0.70121,0.70484,0.70848,0.71212,0.71626,0.72049,0.72475,0.72911,0.73348,0.73778,0.74204,0.74631,0.75057,0.75483,0.75931,0.76395,0.76858,0.77321,0.77784,0.78258,0.78733,0.79208,0.79683,0.80171,0.80681,0.81191,0.81701,0.82214,0.82752,0.83289,0.83827,0.84364],"dx":[-0.2857,-0.2449,-0.2057,-0.1316,-0.0626,0.0019,0.0626,0.0915,0.1197,0.1738,0.2251,0.2739,0.3204,0.3648],"dy":[0.61493,0.62509,0.63537,0.65574,0.67662,0.69657,0.71763,0.72831,0.7395,0.76076,0.78413,0.80578,0.82676,0.84932],"atm":0.69598,"n3":[0.62888,0.70422,0.79469],"n12":[0.60169,0.61374,0.62849,0.64691,0.6658,0.68661,0.70785,0.73172,0.75614,0.78756,0.8197,0.85032],"n48":[0.59563,0.59953,0.60298,0.6062,0.60916,0.6118,0.61419,0.6181,0.62195,0.62607,0.63053,0.6348,0.63973,0.64465,0.64916,0.65335,0.65802,0.66346,0.66858,0.67329,0.67849,0.68369,0.68891,0.69377,0.69907,0.70515,0.71093,0.71634,0.72233,0.72845,0.73511,0.74175,0.74859,0.75507,0.76091,0.76922,0.77681,0.78417,0.79183,0.79923,0.80637,0.81413,0.82216,0.82923,0.83785,0.84616,0.85513,0.86447],"dom":[0.57681,0.88329]}]]}};
+  var IV = (function () {
+    var svg = document.getElementById('iv-svg'), box = svg.parentNode, NS = 'http://www.w3.org/2000/svg';
+    function el(tag, cls) { var x = document.createElementNS(NS, tag); if (cls) x.setAttribute('class', cls); svg.appendChild(x); return x; }
+    var gGrid = el('g'), band = el('path', 'iv-band'), split = el('line', 'iv-split');
+    var lays = [el('path', 'iv-l iv-l3'), el('path', 'iv-l iv-l12'), el('path', 'iv-l iv-l48')], LAY = ['n3', 'n12', 'n48'];
+    var mkt = el('path', 'iv-mkt'), dots = el('path', 'iv-dots'), axX = el('line', 'iv-axis'), axY = el('line', 'iv-axis');
+    var xlab = el('text', 'iv-axl'), ylab = el('text', 'iv-ylab');
+    xlab.setAttribute('text-anchor', 'end');
+    xlab.innerHTML = 'x = log(K/F<tspan baseline-shift="sub" font-size="9">T</tspan>)';
+    var W = 440, H = 320, PL = 52, PR = 426, PT = 30, PB = 284, XD = [-0.42, 0.42];
+    var st = { e: 0, k: 0, m: 0, p: 4 };
+    var rD = document.getElementById('iv-d'), rA = document.getElementById('iv-a'), rW = document.getElementById('iv-w');
+    var expB = document.querySelectorAll('[data-exp]'), poolB = document.querySelectorAll('[data-pool]'), modB = document.querySelectorAll('[data-model]');
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function c01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function set(x, attrs) { for (var k in attrs) x.setAttribute(k, attrs[k]); }
+    function layout() {
+      var r = box.getBoundingClientRect();
+      if (r.width < 10 || r.height < 10) return false;
+      W = r.width; H = r.height; PL = 52; PR = W - 14; PT = 30; PB = H - 38;
+      svg.setAttribute('viewBox', '0 0 ' + W.toFixed(1) + ' ' + H.toFixed(1));
+      set(axX, { x1: PL, y1: PB, x2: PR, y2: PB }); set(axY, { x1: PL, y1: PB, x2: PL, y2: PT - 10 });
+      set(xlab, { x: PR, y: H - 6 }); set(ylab, { x: 10, y: 18 });
+      return true;
+    }
+    function corners() {
+      var e0 = Math.min(3, Math.floor(st.e)), e1 = Math.min(3, e0 + 1), fe = st.e - e0;
+      var k0 = Math.min(1, Math.floor(st.k)), k1 = Math.min(1, k0 + 1), fk = st.k - k0;
+      var m0 = Math.min(1, Math.floor(st.m)), m1 = Math.min(1, m0 + 1), fm = st.m - m0, M = ['bs', 'b'], out = [];
+      [[m0, 1 - fm], [m1, fm]].forEach(function (mm) {
+        [[k0, 1 - fk], [k1, fk]].forEach(function (kk) {
+          [[e0, 1 - fe], [e1, fe]].forEach(function (ee) {
+            var w = mm[1] * kk[1] * ee[1];
+            if (w > 1e-6) out.push({ s: IVD.S[M[mm[0]]][kk[0]][ee[0]], w: w, e: ee[0], k: kk[0] });
+          });
+        });
+      });
+      return out;
+    }
+    function bArr(C, key) { var n = C[0].s[key].length, r = new Array(n).fill(0); C.forEach(function (c) { for (var i = 0; i < n; i++) r[i] += c.w * c.s[key][i]; }); return r; }
+    function bNum(C, f) { var r = 0; C.forEach(function (c) { r += c.w * f(c); }); return r; }
+    function sx(x) { return PL + (x - XD[0]) / (XD[1] - XD[0]) * (PR - PL); }
+    var dom = [0, 1];
+    function sy(v) { return PB - (v - dom[0]) / (dom[1] - dom[0]) * (PB - PT); }
+    var lastLab = -1;
+    function draw() {
+      var C = corners();
+      dom = [bNum(C, function (c) { return c.s.dom[0]; }), bNum(C, function (c) { return c.s.dom[1]; })];
+      var range = dom[1] - dom[0], step = range > 0.2 ? 0.05 : range > 0.09 ? 0.025 : range > 0.04 ? 0.01 : 0.005, g = '';
+      for (var v = Math.ceil(dom[0] / step - 1e-9) * step; v <= dom[1] + 1e-9; v += step) {
+        var y = sy(v).toFixed(1);
+        g += '<line class="gl" x1="' + PL + '" x2="' + PR.toFixed(1) + '" y1="' + y + '" y2="' + y + '"></line><text class="tick" x="' + (PL - 7) + '" y="' + (+y + 4) + '" text-anchor="end">' + v.toFixed(step < 0.05 ? 3 : 2) + '</text>';
+      }
+      [-0.4, -0.2, 0, 0.2, 0.4].forEach(function (x) {
+        g += '<text class="tick" x="' + sx(x).toFixed(1) + '" y="' + (PB + 16) + '" text-anchor="middle">' + (x === 0 ? '0' : x.toFixed(1).replace('-', '−')) + '</text>';
+      });
+      gGrid.innerHTML = g;
+      set(split, { x1: sx(0), x2: sx(0), y1: PT - 6, y2: PB });
+      var lab = st.m < 0.5 ? 0 : 1;
+      if (lab !== lastLab) {
+        ylab.innerHTML = lab ? 'σ<tspan baseline-shift="sub" font-size="9">B</tspan> / F<tspan baseline-shift="sub" font-size="9">T</tspan>' : 'σ<tspan baseline-shift="sub" font-size="9">BS</tspan>';
+        lastLab = lab;
+      }
+      var r0 = c01(st.p), x0 = bNum(C, function (c) { return c.s.x0; }), x1 = bNum(C, function (c) { return c.s.x1; });
+      var my = bArr(C, 'my'), hi = bArr(C, 'hi'), lo = bArr(C, 'lo'), nu = my.length, upto = Math.round(r0 * (nu - 1)), dl = '', db = '', dbl = '';
+      for (var i = 0; i <= upto && r0 > 0; i++) {
+        var xx = sx(lerp(x0, x1, i / (nu - 1))).toFixed(1);
+        dl += (i ? 'L' : 'M') + xx + ' ' + sy(my[i]).toFixed(1);
+        db += (i ? 'L' : 'M') + xx + ' ' + sy(hi[i]).toFixed(1);
+        dbl = 'L' + xx + ' ' + sy(lo[i]).toFixed(1) + dbl;
+      }
+      mkt.setAttribute('d', dl);
+      band.setAttribute('d', r0 > 0 && upto > 0 ? db + dbl + 'Z' : '');
+      var near = C.every(function (c) { return c.w < 0.02 || c.w > 0.98; }), dd = '';
+      if (near && r0 > 0) {
+        var cs = C.reduce(function (a, b) { return a.w > b.w ? a : b; }).s, xr = lerp(x0, x1, r0);
+        for (var j = 0; j < cs.dx.length && cs.dx[j] <= xr + 1e-9; j++) {
+          var cx = sx(cs.dx[j]), cy = sy(cs.dy[j]);
+          dd += 'M' + (cx - 2).toFixed(1) + ' ' + cy.toFixed(1) + 'a2 2 0 1 0 4 0a2 2 0 1 0 -4 0';
+        }
+      }
+      dots.setAttribute('d', dd);
+      LAY.forEach(function (key, li) {
+        var r = c01(st.p - 1 - li), vals = bArr(C, key), n = vals.length, w = 0.8 / n, xr2 = -0.4 + 0.8 * r, d = '';
+        for (var j2 = 0; j2 < n && r > 0; j2++) {
+          var xa = -0.4 + j2 * w; if (xa >= xr2) break;
+          var xb = Math.min(xa + w, xr2), yy = sy(vals[j2]).toFixed(1);
+          d += (j2 ? 'V' + yy : 'M' + sx(xa).toFixed(1) + ' ' + yy) + 'H' + sx(xb).toFixed(1);
+        }
+        lays[li].setAttribute('d', d);
+      });
+      rD.textContent = Math.round(bNum(C, function (c) { return IVD.days[c.e]; }));
+      rA.textContent = bNum(C, function (c) { return c.s.atm; }).toFixed(3);
+      rW.textContent = (bNum(C, function (c) { return IVD.ril[c.k][c.e]; }) / 100).toFixed(2) + '%';
+      var ne = Math.round(st.e), nk = Math.round(st.k), nm = Math.round(st.m);
+      Array.prototype.forEach.call(expB, function (b) { b.setAttribute('aria-pressed', String(+b.getAttribute('data-exp') === ne)); });
+      Array.prototype.forEach.call(poolB, function (b) { b.setAttribute('aria-pressed', String(+b.getAttribute('data-pool') === nk)); });
+      Array.prototype.forEach.call(modB, function (b) { b.setAttribute('aria-pressed', String(+b.getAttribute('data-model') === nm)); });
+    }
+    function easeIO(u) { return u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; }
+    function linear(u) { return u; }
+    var script = [
+      { to: { p: 1 }, dur: 1.4, ease: linear }, { wait: 0.4 }, { to: { p: 2 }, dur: 0.9, ease: linear }, { wait: 0.4 },
+      { to: { p: 3 }, dur: 1.1, ease: linear }, { wait: 0.4 }, { to: { p: 4 }, dur: 1.3, ease: linear }, { wait: 2 },
+      { to: { e: 1 }, dur: 1.2 }, { wait: 1.3 }, { to: { e: 2 }, dur: 1.2 }, { wait: 1.3 }, { to: { e: 3 }, dur: 1.2 }, { wait: 1.6 },
+      { to: { k: 1 }, dur: 1.2 }, { wait: 1.6 }, { to: { m: 1 }, dur: 1.4 }, { wait: 2.4 }
+    ];
+    var TOTAL = script.reduce(function (a, s) { return a + (s.dur || s.wait || 0); }, 0);
+    var auto = false, si = -1, anim = null, waitT = 0, elapsed = 0, raf = 0, last = 0, shown = false, onDone = null, visible = true;
+    function tweenTo(to, dur, ease) { var from = {}; for (var k in to) from[k] = st[k]; anim = { from: from, to: to, t: 0, dur: dur, ease: ease || easeIO }; }
+    function next() {
+      si++;
+      if (si >= script.length) { auto = false; var cb = onDone; onDone = null; if (cb) cb(); return; }
+      var s = script[si];
+      if (s.to) tweenTo(s.to, s.dur, s.ease); else waitT = s.wait;
+    }
+    function frame(ts) {
+      raf = 0;
+      var dt = last ? Math.min(0.05, (ts - last) / 1000) : 0; last = ts;
+      if (anim) {
+        anim.t += dt; if (auto) elapsed += dt;
+        var u = Math.min(1, anim.t / anim.dur), kk = anim.ease(u);
+        for (var k in anim.to) st[k] = lerp(anim.from[k], anim.to[k], kk);
+        if (u >= 1) { var wasUser = anim.user; anim = null; if (auto && !wasUser) next(); }
+      } else if (auto && waitT > 0) { waitT -= dt; elapsed += dt; if (waitT <= 0) next(); }
+      draw();
+      if ((auto || anim) && shown && visible && !document.hidden) raf = requestAnimationFrame(frame); else last = 0;
+    }
+    function kick() { if (!raf && shown && visible && !document.hidden) { last = 0; raf = requestAnimationFrame(frame); } }
+    function userSet(to) {
+      if (anim && anim.user) { for (var q in anim.to) if (!(q in to)) to[q] = anim.to[q]; }
+      auto = false; onDone = null; waitT = 0;
+      if (st.p < 4) to.p = 4;
+      if (reduce) { for (var k in to) st[k] = to[k]; anim = null; draw(); return; }
+      tweenTo(to, 0.75); anim.user = true; kick();
+    }
+    Array.prototype.forEach.call(expB, function (b) { b.addEventListener('click', function () { userSet({ e: +b.getAttribute('data-exp') }); }); });
+    Array.prototype.forEach.call(poolB, function (b) { b.addEventListener('click', function () { userSet({ k: +b.getAttribute('data-pool') }); }); });
+    Array.prototype.forEach.call(modB, function (b) { b.addEventListener('click', function () { userSet({ m: +b.getAttribute('data-model') }); }); });
+    if ('ResizeObserver' in window) new ResizeObserver(function () { if (layout()) draw(); }).observe(box);
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) kick(); }).observe(box);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) kick(); });
+    return {
+      enter: function (play, cb) {
+        shown = true; layout();
+        if (play && !reduce) { st = { e: 0, k: 0, m: 0, p: 0 }; si = -1; elapsed = 0; auto = true; onDone = cb || null; anim = null; waitT = 0; next(); kick(); }
+        else { draw(); }
+      },
+      leave: function () { shown = false; auto = false; onDone = null; anim = null; if (raf) { cancelAnimationFrame(raf); raf = 0; } },
+      progress: function () { return auto ? Math.min(1, elapsed / TOTAL) : 1; },
+      playing: function () { return auto; }
+    };
+  })();
+
+  /* ---------- the two figures take turns ---------- */
+  (function () {
+    var tabs = [document.getElementById('tab-surf'), document.getElementById('tab-iv')];
+    var slides = [document.getElementById('slide-surf'), document.getElementById('slide-iv')];
+    var progs = tabs.map(function (t) { return t.querySelector('.prog'); });
+    var fig = document.getElementById('viz'), active = 0, rotating = !reduce, t0 = 0, SURF_MS = 15000, figVisible = true, last = 0;
+    function show(i, play) {
+      active = i;
+      tabs.forEach(function (t, j) { t.setAttribute('aria-selected', String(j === i)); t.setAttribute('tabindex', j === i ? '0' : '-1'); });
+      slides.forEach(function (sl, j) { sl.classList.toggle('off', j !== i); sl.setAttribute('aria-hidden', String(j !== i)); });
+      progs.forEach(function (pg) { pg.style.width = rotating ? '0%' : ''; });
+      surfShown = i === 0; setRunning(true); if (i === 0) resize();
+      if (i === 1) IV.enter(play, function () { if (rotating) show(0, true); });
+      else IV.leave();
+      t0 = 0;
+    }
+    function stopRotation() {
+      rotating = false;
+      progs.forEach(function (p) { p.style.width = ''; });
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { stopRotation(); if (i !== active) show(i, true); });
+      t.addEventListener('keydown', function (ev) {
+        if (ev.key === 'ArrowRight' || ev.key === 'ArrowLeft') { ev.preventDefault(); stopRotation(); var j = 1 - active; show(j, true); tabs[j].focus(); }
+      });
+    });
+    fig.addEventListener('click', function (ev) { if (ev.target.closest('.viz-controls')) stopRotation(); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { figVisible = es[0].isIntersecting; }).observe(fig);
+    function tick(ts) {
+      if (!rotating) return;
+      var dt = last ? Math.min(100, ts - last) : 0; last = ts;
+      if (figVisible && !document.hidden) {
+        if (active === 0) {
+          t0 += dt;
+          progs[0].style.width = (100 * Math.min(1, t0 / SURF_MS)).toFixed(2) + '%';
+          if (t0 >= SURF_MS) show(1, true);
+        } else {
+          progs[1].style.width = (100 * IV.progress()).toFixed(2) + '%';
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    show(0, false);
+    if (rotating) requestAnimationFrame(tick);
+  })();
+
+  /* line the top of the figure panel up with the first research topic (two-column layout only) */
+  (function () {
+    var hero = document.querySelector('.hero'), fig = document.getElementById('viz');
+    var topic = document.querySelector('.topics li'), box = document.querySelector('#slide-surf .viz-box');
+    function align() {
+      fig.style.marginTop = '0px';
+      if (getComputedStyle(hero).gridTemplateColumns.trim().split(/\s+/).length < 2) return;
+      var d = topic.getBoundingClientRect().top - box.getBoundingClientRect().top;
+      if (d > 0) fig.style.marginTop = d.toFixed(1) + 'px';
+    }
+    align();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(align);
+    var raf2 = 0;
+    window.addEventListener('resize', function () { cancelAnimationFrame(raf2); raf2 = requestAnimationFrame(align); });
+  })();
+})();
+</script>
+</body>
+</html>
