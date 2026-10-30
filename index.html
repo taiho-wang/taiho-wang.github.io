@@ -91,7 +91,7 @@ a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thicknes
 .nw { white-space: nowrap; }
 .lede { margin-top: 1.25rem; font-size: clamp(1rem, 1.6vw, 1.125rem); color: var(--fg-2); max-width: 44rem; }
 .topics { list-style: none; padding: 0; margin-bottom: 0; display: grid; gap: 0.3rem; }
-.hero .portrait { width: 13rem; max-width: 100%; margin-top: 2.25rem; }
+.hero .portrait { width: 16rem; max-width: 100%; margin-top: 2.25rem; }
 .hero-viz { margin: 0; min-width: 0; display: flex; flex-direction: column; }
 .viz-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; border-bottom: 1px solid var(--line); }
 .viz-tabs button { position: relative; font-family: var(--f-head); font-weight: 500; font-size: clamp(1.25rem, 2.2vw, 1.55rem); line-height: 1.15;
@@ -105,7 +105,7 @@ a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thicknes
 .slide.off { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.45s ease, visibility 0s linear 0.45s; }
 @media (prefers-reduced-motion: reduce) { .slide, .slide.off { transition: none; } }
 .viz-sub { margin-top: 0.7rem; font-size: 0.875rem; color: var(--fg-2); }
-.viz-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.7rem; margin-top: 0.9rem; }
+.viz-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.7rem; margin-top: 0.85rem; }
 .vlabel { font-size: 0.8125rem; color: var(--fg-2); margin-left: 0.25rem; }
 .vbtn, .segctl { border: 1px solid var(--line); border-radius: 999px; }
 .vbtn { font: inherit; font-size: 0.8125rem; font-weight: 500; color: var(--fg); background: transparent; padding: 0.3rem 0.85rem; cursor: pointer; min-width: 4.6rem; }
@@ -116,15 +116,15 @@ a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thicknes
 .segctl button + button { border-left: 1px solid var(--line); }
 .segctl button:hover { background: var(--bg-2); }
 .segctl button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
-.viz-box { position: relative; flex: 1 1 auto; min-height: 14.5rem; margin-top: 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--viz); overflow: hidden; }
+.viz-box { position: relative; flex: 1 1 auto; min-height: 10.5rem; margin-top: 0.75rem; border: 1px solid var(--line); border-radius: 12px; background: var(--viz); overflow: hidden; }
 #surface { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: pan-y; }
-.readout { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 0.9rem 0 0; }
+.readout { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 0.75rem 0 0; }
 .readout div { border-top: 3px solid var(--fac); padding-top: 0.4rem; min-width: 0; }
 .readout div:nth-child(2) { border-color: var(--visit); }
 .readout div:nth-child(3) { border-color: var(--post); }
 .readout dt { font-size: 0.78rem; color: var(--fg-2); }
 .readout dd { margin: 0; font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.cap { margin-top: 0.75rem; font-size: 0.8125rem; color: var(--fg-2); }
+.cap { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--fg-2); }
 #iv-svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 #iv-svg .gl { stroke: var(--line); stroke-width: 1; }
 #iv-svg .tick { fill: var(--fg-2); font: 400 11px var(--f); font-variant-numeric: tabular-nums; }
@@ -139,7 +139,7 @@ a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thicknes
 #iv-svg .iv-l3 { stroke: var(--post); stroke-width: 2.4; }
 #iv-svg .iv-l12 { stroke: var(--visit); stroke-width: 2.1; }
 #iv-svg .iv-l48 { stroke: var(--fac); stroke-width: 1.7; }
-.iv-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; margin: 0.5rem 0 0; padding: 0; font-size: 0.78rem; color: var(--fg-2); }
+.iv-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; margin: 0.4rem 0 0; padding: 0; font-size: 0.78rem; color: var(--fg-2); }
 .iv-legend li { display: flex; align-items: center; gap: 0.4rem; }
 .lsw { display: inline-block; width: 1.1rem; height: 3px; }
 .lsw.lband { background: var(--viz-band); height: 0.7rem; } .lsw.lmkt { background: var(--fg); height: 2px; }
@@ -303,7 +303,6 @@ a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
       </div>
       <div class="slides">
         <div class="slide" id="slide-surf" role="tabpanel" aria-labelledby="tab-surf">
-          <p class="viz-sub" id="surf-sub">SPIDE fitted to WETH–USDC 5 bps on Ethereum (Dense-3 with penalty, Full block). One ridge every 8 hours.</p>
           <div class="viz-controls">
             <button type="button" class="vbtn" id="surf-play" aria-pressed="false">Pause</button>
             <span class="vlabel" id="spool-label">Pool</span>
@@ -317,10 +316,9 @@ a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
             <div><dt>Tilt (mode 1)</dt><dd id="s-tilt">+0.00</dd></div>
             <div><dt>Concentration (mode 2)</dt><dd id="s-conc">+0.00</dd></div>
           </dl>
-          <p class="cap">Spot-centered log-liquidity simulated from the SPIDE in its calibrated form: Gegenbauer modes damped at rate a·n(n+2α) and coupled through the fitted relocation matrix V, with parameters from Tables 4 and 7 of <a href="https://arxiv.org/abs/2610.30539" target="_blank" rel="noopener">Lee, Risk, Tung and Wang</a>. The highlighted stretch of the axis is the active band. Noise level and mean profiles are illustrative.</p>
+          <p class="cap">SPIDE fitted to <span id="surf-pool">WETH–USDC 5 bps on Ethereum</span> (<a href="https://arxiv.org/abs/2610.30539" target="_blank" rel="noopener">Lee, Risk, Tung and Wang</a>), one ridge per 8 hours, active band highlighted. Noise and mean profile are illustrative.</p>
         </div>
         <div class="slide off" id="slide-iv" role="tabpanel" aria-labelledby="tab-iv" aria-hidden="true">
-          <p class="viz-sub">Implied volatility of a liquidity position: ETH/USDC on Uniswap v3, Nov 17, 2025</p>
           <div class="viz-controls">
             <div class="segctl" role="group" aria-label="Time to expiry"><button type="button" data-exp="0" aria-pressed="true">39d</button><button type="button" data-exp="1" aria-pressed="false">130d</button><button type="button" data-exp="2" aria-pressed="false">221d</button><button type="button" data-exp="3" aria-pressed="false">312d</button></div>
             <div class="segctl" role="group" aria-label="Pool fee tier"><button type="button" data-pool="0" aria-pressed="true">5bp</button><button type="button" data-pool="1" aria-pressed="false">30bp</button></div>
@@ -336,7 +334,7 @@ a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
             <div><dt>At-the-money IV</dt><dd id="iv-a">0.739</dd></div>
             <div><dt>IL price / LP value</dt><dd id="iv-w">3.45%</dd></div>
           </dl>
-          <p class="cap">Refining the bins brings the position's implied volatility onto the market smile. Data from Figures 2, 3 and 5 of <a href="https://arxiv.org/abs/2603.01344" target="_blank" rel="noopener">Risk, Tung and Wang</a>.</p>
+          <p class="cap">ETH/USDC on Uniswap v3, Nov 17, 2025. Finer bins bring the position's implied volatility onto the market smile. Data: Figures 2, 3 and 5 of <a href="https://arxiv.org/abs/2603.01344" target="_blank" rel="noopener">Risk, Tung and Wang</a>.</p>
         </div>
       </div>
     </figure>
@@ -383,9 +381,9 @@ a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
       <div>
         <h3>Education</h3>
         <ul class="plist">
-<li><span class="when">2000</span><span><b>Ph.D.</b>, Applied Mathematics, National Chiao Tung University. Advisor: Professor Yi-Jung Hsu</span></li>
-<li><span class="when">1994</span><span><b>M.Sc.</b>, Applied Mathematics, National Chiao Tung University</span></li>
-<li><span class="when">1992</span><span><b>B.Sc.</b>, Applied Mathematics, National Chiao Tung University</span></li>
+<li><span class="when">2000</span><span><b>Ph.D.</b>, Applied Mathematics<br>National Chiao Tung University<br>Advisor: Professor Yi-Jung Hsu</span></li>
+<li><span class="when">1994</span><span><b>M.Sc.</b>, Applied Mathematics<br>National Chiao Tung University</span></li>
+<li><span class="when">1992</span><span><b>B.Sc.</b>, Applied Mathematics<br>National Chiao Tung University</span></li>
         </ul>
       </div>
     </div>
@@ -595,7 +593,7 @@ a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
   function refill() { hist = []; for (var i = 0; i < ROWS + 1; i++) { step(); snapshot(); } }
 
   var rLev = document.getElementById('s-lev'), rTilt = document.getElementById('s-tilt'), rConc = document.getElementById('s-conc');
-  var subEl = document.getElementById('surf-sub');
+  var poolEl = document.getElementById('surf-pool');
   var lastRead = -1;
   function fmt(v) { if (Math.abs(v) < 0.005) return '0.00'; return (v > 0 ? '+' : '−') + Math.abs(v).toFixed(2); }
   function readouts(force) {
@@ -610,7 +608,7 @@ a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
     buildBasis();
     for (var b = 0; b < 30; b++) step();
     refill();
-    subEl.textContent = 'SPIDE fitted to ' + P.label + ' (' + P.fit + '). One ridge every 8 hours.';
+    poolEl.textContent = P.label;
     readouts(true); draw();
   }
 
@@ -783,7 +781,8 @@ a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
     function draw() {
       var C = corners();
       dom = [bNum(C, function (c) { return c.s.dom[0]; }), bNum(C, function (c) { return c.s.dom[1]; })];
-      var range = dom[1] - dom[0], step = range > 0.2 ? 0.05 : range > 0.09 ? 0.025 : range > 0.04 ? 0.01 : 0.005, g = '';
+      var range = dom[1] - dom[0], pxPer = (PB - PT) / range, step = 0.005, g = '';
+      [0.005, 0.01, 0.025, 0.05, 0.1, 0.2].some(function (c) { step = c; return c * pxPer >= 24; });   /* keep tick labels at least 24 px apart */
       for (var v = Math.ceil(dom[0] / step - 1e-9) * step; v <= dom[1] + 1e-9; v += step) {
         var y = sy(v).toFixed(1);
         g += '<line class="gl" x1="' + PL + '" x2="' + PR.toFixed(1) + '" y1="' + y + '" y2="' + y + '"></line><text class="tick" x="' + (PL - 7) + '" y="' + (+y + 4) + '" text-anchor="end">' + v.toFixed(step < 0.05 ? 3 : 2) + '</text>';
@@ -935,14 +934,22 @@ a.p-title .ext { color: var(--accent); margin-left: 0.3em; }
     if (rotating) requestAnimationFrame(tick);
   })();
 
-  /* line the top of the figure panel up with the first research topic (two-column layout only) */
+  /* put the figure tabs on the same baseline as the first research topic (two-column layout only) */
   (function () {
     var hero = document.querySelector('.hero'), fig = document.getElementById('viz');
-    var topic = document.querySelector('.topics li'), box = document.querySelector('#slide-surf .viz-box');
+    var topic = document.querySelector('.topics li'), tab = document.getElementById('tab-surf');
+    function baseline(el) {
+      var m = document.createElement('span');
+      m.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+      el.insertBefore(m, el.firstChild);
+      var y = m.getBoundingClientRect().top;
+      el.removeChild(m);
+      return y;
+    }
     function align() {
       fig.style.marginTop = '0px';
       if (getComputedStyle(hero).gridTemplateColumns.trim().split(/\s+/).length < 2) return;
-      var d = topic.getBoundingClientRect().top - box.getBoundingClientRect().top;
+      var d = baseline(topic) - baseline(tab);
       if (d > 0) fig.style.marginTop = d.toFixed(1) + 'px';
     }
     align();
